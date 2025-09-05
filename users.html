@@ -94,7 +94,7 @@
                  'name': 'Name', 
                  'email': 'Email',
                  'location': 'Location',
-                 'nodes': 'Number of Nodes',
+                 'nodes': 'Nodes',
                  'notes': 'Notes',
                  'is_admin': 'Administrator',
                  'email_public': 'Email Public'
@@ -108,10 +108,43 @@
                    const label = fieldLabels[key] || key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
                    let value = data[key];
                    
-                   // Format different data types
-                   if (typeof value === 'boolean') {
+                   // Special handling for different data types
+                   if (key === 'nodes') {
+                     // Handle nodes data structure
+                     if (Array.isArray(value) && value.length === 0) {
+                       value = 'No active nodes';
+                     } else if (typeof value === 'object' && value !== null) {
+                       // Convert nodes object to formatted display
+                       const nodeIds = Object.keys(value);
+                       if (nodeIds.length === 0) {
+                         value = 'No active nodes';
+                       } else {
+                         let nodesHtml = `<div style="margin-top: 5px;">`;
+                         nodeIds.forEach(nodeId => {
+                           const node = value[nodeId];
+                           nodesHtml += `
+                             <div style="background: #f0f0f0; padding: 8px; margin: 5px 0; border-radius: 5px; border-left: 3px solid #2563eb;">
+                               <strong>${nodeId}</strong><br>
+                               <small>
+                                 Type: ${node.type || 'Unknown'}<br>
+                                 Municipality: ${node.municipality || 'Unknown'}<br>
+                                 Uptime: ${node.uptime || 'Unknown'}<br>
+                                 Coverage: ${node.coverage_circle ? node.coverage_circle + ' miles' : 'Unknown'}<br>
+                                 ${node.notes ? 'Notes: ' + node.notes + '<br>' : ''}
+                                 Location: ${node.location ? node.location.lat + ', ' + node.location.lon : 'Unknown'}
+                               </small>
+                             </div>
+                           `;
+                         });
+                         nodesHtml += `</div>`;
+                         value = nodesHtml;
+                       }
+                     } else {
+                       value = 'No active nodes';
+                     }
+                   } else if (typeof value === 'boolean') {
                      value = value ? 'Yes' : 'No';
-                   } else if (key === 'email' && data.email_public !== false) {
+                   } else if (key === 'email' && data.email_public !== false && value !== '--private--') {
                      value = `<a href="mailto:${value}">${value}</a>`;
                    } else if (typeof value === 'number') {
                      value = value.toString();
