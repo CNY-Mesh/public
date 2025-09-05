@@ -49,23 +49,99 @@
          const userId = urlParams.get("id");
          if (userId) {
            fetch(`https://api.cnymesh.org/users/${userId}`)
-             .then(response => response.json())
+             .then(response => {
+               if (!response.ok) {
+                 throw new Error(`HTTP error! status: ${response.status}`);
+               }
+               return response.json();
+             })
              .then(data => {
                const userList = document.getElementById("user-list");
+               
+               // Check if the API returned an error
+               if (data.error) {
+                 const errorItem = document.createElement("li");
+                 errorItem.textContent = `Error: ${data.error}`;
+                 errorItem.style.color = "red";
+                 userList.appendChild(errorItem);
+                 return;
+               }
+               
+               // Check if we have valid user data
+               if (!data.id || !data.name) {
+                 const errorItem = document.createElement("li");
+                 errorItem.textContent = "Error: Invalid user data received";
+                 errorItem.style.color = "red";
+                 userList.appendChild(errorItem);
+                 return;
+               }
+               
                const userItem = document.createElement("li");
-               userItem.textContent = data.username;
+               userItem.innerHTML = `<strong>${data.id}</strong>: ${data.name}`;
                userList.appendChild(userItem);
+             })
+             .catch(error => {
+               console.error('Error fetching user:', error);
+               const userList = document.getElementById("user-list");
+               const errorItem = document.createElement("li");
+               errorItem.textContent = `Error loading user data for ${userId}: ${error.message}`;
+               errorItem.style.color = "red";
+               userList.appendChild(errorItem);
              });
          } else {
            fetch(`https://api.cnymesh.org/users`)
-             .then(response => response.json())
-             .then(data => {
+             .then(response => {
+               if (!response.ok) {
+                 throw new Error(`HTTP error! status: ${response.status}`);
+               }
+               return response.json();
+             })
+             .then(response => {
                const userList = document.getElementById("user-list");
-               data.forEach(user => {
-                 const userItem = document.createElement("li");
-                 userItem.textContent = user.username;
-                 userList.appendChild(userItem);
+               
+               // Check if the API returned an error
+               if (response.error) {
+                 const errorItem = document.createElement("li");
+                 errorItem.textContent = `Error: ${response.error}`;
+                 errorItem.style.color = "red";
+                 userList.appendChild(errorItem);
+                 return;
+               }
+               
+               // API returns: {"message": "List of users", "data": {"AK2X": {"id": "AK2X", "name": "..."}, ...}}
+               if (!response.data || typeof response.data !== 'object') {
+                 console.error('Invalid API response format:', response);
+                 throw new Error('Invalid data format received from API');
+               }
+               
+               const users = Object.values(response.data);
+               
+               if (users.length === 0) {
+                 const noUsersItem = document.createElement("li");
+                 noUsersItem.textContent = "No users found";
+                 noUsersItem.style.fontStyle = "italic";
+                 userList.appendChild(noUsersItem);
+                 return;
+               }
+               
+               users.forEach(user => {
+                 // Validate each user object
+                 if (user.id && user.name) {
+                   const userItem = document.createElement("li");
+                   userItem.innerHTML = `<strong>${user.id}</strong>: ${user.name}`;
+                   userList.appendChild(userItem);
+                 } else {
+                   console.warn('Skipping invalid user data:', user);
+                 }
                });
+             })
+             .catch(error => {
+               console.error('Error fetching users:', error);
+               const userList = document.getElementById("user-list");
+               const errorItem = document.createElement("li");
+               errorItem.textContent = `Error loading user data: ${error.message}`;
+               errorItem.style.color = "red";
+               userList.appendChild(errorItem);
              });
          }
         </script>
