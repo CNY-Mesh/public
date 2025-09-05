@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Technical Resources — CNYmesh</title>
+  <meta name="description" content="Frequencies, antennas, node types, and mapping tools for Meshtastic in Central New York." />
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/"><span class="brand-mark">CNY</span><span class="brand-mark accent">mesh</span></a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#join">How to Join</a>
+      <a href="/#resources">Technical</a>
+      <a href="/#involved">Get Involved</a>
+      <a href="/map.html">Coverage Map</a>
+      <a class="btn btn-small" href="/faq.html">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content">
+  <section class="section">
+    <div class="container two-col">
+      <div>
+        <h1>Technical Resources</h1>
+        <h2>Frequencies &amp; Legal Use</h2>
+        <ul class="bullets">
+          <li><strong>915 MHz ISM (US):</strong> license-free (FCC Part 15)</li>
+          <li><strong>Ham bands (70cm):</strong> experimental use requires proper licensing/config</li>
+          <li><strong>Power/antennas:</strong> follow FCC rules for your license and band</li>
+        </ul>
+
+        <h2>Antennas &amp; Range</h2>
+        <ul class="bullets">
+          <li>¼-wave whips, dipoles, or directional (Yagi/panel) for long links</li>
+          <li>Elevation is king; avoid metal/obstructions; use quality coax</li>
+        </ul>
+
+        <h2>Node Types</h2>
+        <ul class="bullets">
+          <li><strong>Personal:</strong> portable, battery-powered</li>
+          <li><strong>Router:</strong> fixed site, good antenna, relays traffic</li>
+          <li><strong>Solar:</strong> remote 24/7 nodes for gaps</li>
+        </ul>
+
+        <h2>Mapping &amp; Planning</h2>
+        <ul class="bullets">
+          <li>Meshtastic community maps for node visibility</li>
+          <li>Radio Mobile / QRadioPredict for RF modeling</li>
+          <li>CNYmesh coverage map for our six focus counties</li>
+        </ul>
+      </div>
+      <aside>
+        <div class="card">
+          <h3>Best Practices for CNY</h3>
+          <ul class="bullets">
+            <li>Weather-proof outdoor installs (snow/ice/cold)</li>
+            <li>Dense nodes in Syracuse; high-elevation routers in rural counties</li>
+            <li>Plan long-range bridges toward Rochester, Buffalo, Ithaca, Albany</li>
+          </ul>
+          <p><a class="btn" href="/map.html">Open coverage map</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><strong>CNYmesh</strong><br/>Central New York Meshtastic Community</div>
+    <nav aria-label="Footer">
+      <a href="/about.html">About</a><a href="/how-to-join.html">How to Join</a><a href="/technical-resources.html">Technical</a><a href="/faq.html">FAQ</a><a href="/map.html">Coverage Map</a>
+    </nav>
+    <div class="fineprint">© <span id="year"></span> CNYmesh</div>
+  </div>
+</footer>
+<script src="/js/home.js" defer></script>
+</body>
+</html>
