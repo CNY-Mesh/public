@@ -120,53 +120,84 @@
   const nodesLayer = L.layerGroup();
   const coverageLayer = L.layerGroup();
 
-  const processNodes = (geojson) => {
+  const processNodes = (data) => {
     // Clear existing layers
     nodesLayer.clearLayers();
     coverageLayer.clearLayers();
 
-    // Create a temporary layer to process GeoJSON
-    const tempLayer = L.geoJSON(geojson, {
-      pointToLayer: (f, latlng) => {
-        const p = f.properties || {};
-        
-        // Create the node marker
-        const marker = L.marker(latlng, { icon: nodeMarker(p) });
-        marker.bindPopup(`
-          <strong>${p.name || "Node"}</strong><br>
-          Type: ${p.type || "unknown"}<br>
-          Uptime: ${p.uptime || "—"}<br>
-          Coverage: ${p.coverage_circle ? p.coverage_circle + " miles" : "—"}<br>
-          Notes: ${p.notes || "—"}
-        `);
-        
-        // Add marker to nodes layer
-        nodesLayer.addLayer(marker);
-        
-        // Create coverage circle if coverage_circle property exists
-        if (p.coverage_circle && typeof p.coverage_circle === 'number' && p.coverage_circle > 0) {
-          const radiusInMeters = p.coverage_circle * 1609.34; // Convert miles to meters
-          const circle = L.circle(latlng, {
-            radius: radiusInMeters,
-            color: '#2563eb',
-            weight: 1,
-            opacity: 0.6,
-            fillColor: '#2563eb',
-            fillOpacity: 0.1
-          });
+    // Handle the new API format: {"type":"FeatureCollection","features":[{"CNYMesh-C-1":{"host":"AK2X",...}}]}
+    if (data.features && Array.isArray(data.features)) {
+      data.features.forEach(featureObj => {
+        // Each feature is an object with node ID as key and node data as value
+        Object.keys(featureObj).forEach(nodeId => {
+          const nodeData = featureObj[nodeId];
           
-          circle.bindTooltip(`${p.name || "Node"} - ${p.coverage_circle} mile coverage`, {
-            direction: 'top',
-            offset: [0, -10]
-          });
+          if (!nodeData.location || !nodeData.location.lat || !nodeData.location.lon) {
+            console.warn('Skipping node without valid location:', nodeId, nodeData);
+            return;
+          }
           
-          // Add circle to coverage layer
-          coverageLayer.addLayer(circle);
-        }
-        
-        return marker;
-      }
-    });
+          const latlng = L.latLng(nodeData.location.lat, nodeData.location.lon);
+          
+          // Create the node marker
+          const marker = L.marker(latlng, { icon: nodeMarker(nodeData) });
+          
+          // Build popup content with all available fields
+          let popupContent = `<strong>${nodeId}</strong><br>`;
+          
+          if (nodeData.host) {
+            popupContent += `Host: <a href="/users.html?id=${nodeData.host}" target="_blank">${nodeData.host}</a><br>`;
+          }
+          if (nodeData.type) {
+            popupContent += `Type: ${nodeData.type}<br>`;
+          }
+          if (nodeData.municipality) {
+            popupContent += `Municipality: ${nodeData.municipality}<br>`;
+          }
+          if (nodeData.uptime) {
+            popupContent += `Uptime: ${nodeData.uptime}<br>`;
+          }
+          if (nodeData.coverage_circle) {
+            popupContent += `Coverage: ${nodeData.coverage_circle} miles<br>`;
+          }
+          if (nodeData.notes) {
+            popupContent += `Notes: ${nodeData.notes}<br>`;
+          }
+          
+          // Remove trailing <br> and add location coordinates
+          popupContent = popupContent.replace(/<br>$/, '');
+          popupContent += `<br><small>Coordinates: ${nodeData.location.lat.toFixed(6)}, ${nodeData.location.lon.toFixed(6)}</small>`;
+          
+          marker.bindPopup(popupContent);
+          
+          // Add marker to nodes layer
+          nodesLayer.addLayer(marker);
+          
+          // Create coverage circle if coverage_circle property exists
+          if (nodeData.coverage_circle && typeof nodeData.coverage_circle === 'number' && nodeData.coverage_circle > 0) {
+            const radiusInMeters = nodeData.coverage_circle * 1609.34; // Convert miles to meters
+            const circle = L.circle(latlng, {
+              radius: radiusInMeters,
+              color: '#2563eb',
+              weight: 1,
+              opacity: 0.6,
+              fillColor: '#2563eb',
+              fillOpacity: 0.1
+            });
+            
+            circle.bindTooltip(`${nodeId} - ${nodeData.coverage_circle} mile coverage`, {
+              direction: 'top',
+              offset: [0, -10]
+            });
+            
+            // Add circle to coverage layer
+            coverageLayer.addLayer(circle);
+          }
+        });
+      });
+    } else {
+      console.error('Invalid nodes API response format:', data);
+    }
   };
 
   // Controls
