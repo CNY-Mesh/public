@@ -96,6 +96,46 @@ a:hover {
 .hero .lede {
   font-size: 1.2rem;
 }
+
+/* Hero logo integration */
+.lede-with-logo {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-logo {
+  width: 120px;
+  height: auto;
+  flex-shrink: 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .hero-logo {
+  box-shadow: 0 2px 8px rgba(255,255,255,0.1);
+}
+
+.lede-with-logo .lede {
+  margin: 0;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .lede-with-logo {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .hero-logo {
+    width: 100px;
+  }
+}
+
 .cta-row {
   margin-top: 1.5rem;
   display: flex;
