@@ -1,2 +1,1 @@
-# public
-public website
+# CNY Mesh Public Website
