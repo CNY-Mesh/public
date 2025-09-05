@@ -17,13 +17,37 @@
   <style>
     #map { height: calc(100vh - 80px); margin: 0; }
     .legend {
-      background:#fff; padding:10px 12px; border-radius:10px;
-      box-shadow:0 2px 10px rgba(0,0,0,.15); font:14px/1.4 system-ui, sans-serif;
+      background: var(--card-bg); 
+      color: var(--text-color);
+      padding:10px 12px; 
+      border-radius:10px;
+      border: 1px solid var(--border-color);
+      box-shadow:0 2px 10px rgba(0,0,0,.15); 
+      font:14px/1.4 system-ui, sans-serif;
     }
-    .legend h4 { margin:0 0 8px; font-size:14px; }
-    .legend .row { display:flex; align-items:center; gap:8px; margin:6px 0; }
-    .swatch { width:14px; height:14px; border-radius:3px; border:1px solid #777; }
-    .county-label { color:#111; font-weight:600; text-shadow:0 0 3px rgba(255,255,255,.9); }
+    .legend h4 { 
+      margin:0 0 8px; 
+      font-size:14px; 
+      color: var(--text-color);
+    }
+    .legend .row { 
+      display:flex; 
+      align-items:center; 
+      gap:8px; 
+      margin:6px 0; 
+      color: var(--text-color);
+    }
+    .swatch { 
+      width:14px; 
+      height:14px; 
+      border-radius:3px; 
+      border:1px solid var(--border-color); 
+    }
+    .county-label { 
+      color: var(--text-color); 
+      font-weight:600; 
+      text-shadow: 0 0 3px var(--card-bg);
+    }
   </style>
 </head>
 <body>
