@@ -236,3 +236,125 @@ a:hover {
   position: absolute;
   left: -9999px;
 }
+
+/* Dark Mode Support */
+/* Dark mode toggle button */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--toggle-bg, #fff);
+  border: 2px solid var(--toggle-border, #333);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  user-select: none;
+}
+
+.dark-mode-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Dark mode variables */
+:root {
+  --bg-color: #fafafa;
+  --text-color: #111;
+  --card-bg: #ffffff;
+  --card-alt-bg: #f3f4f6;
+  --border-color: #e5e7eb;
+  --toggle-bg: #ffffff;
+  --toggle-border: #333333;
+  --link-color: #2563eb;
+  --nav-bg: #ffffff;
+  --nav-border: #e5e7eb;
+  --footer-bg: #111111;
+  --footer-text: #eeeeee;
+  --footer-link: #dddddd;
+  --footer-fine: #aaaaaa;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --card-bg: #2d2d2d;
+  --card-alt-bg: #242424;
+  --border-color: #404040;
+  --toggle-bg: #2d2d2d;
+  --toggle-border: #e0e0e0;
+  --link-color: #60a5fa;
+  --nav-bg: #1a1a1a;
+  --nav-border: #404040;
+  --footer-bg: #0f0f0f;
+  --footer-text: #e0e0e0;
+  --footer-link: #d0d0d0;
+  --footer-fine: #888888;
+}
+
+/* Apply dark mode styles */
+html, body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--link-color);
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.hero-card {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.section.alt {
+  background: var(--card-alt-bg);
+}
+
+.site-header {
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+}
+
+.site-footer {
+  background: var(--footer-bg);
+  color: var(--footer-text);
+}
+
+.footer-grid nav a {
+  color: var(--footer-link);
+}
+
+.footer-grid nav a:hover {
+  color: var(--footer-text);
+}
+
+.fineprint {
+  color: var(--footer-fine);
+}
+
+/* Map specific styles */
+.legend {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+/* User list styles */
+.user-list li {
+  border-color: var(--border-color);
+  background-color: var(--card-bg);
+}
