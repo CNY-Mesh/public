@@ -104,9 +104,19 @@
       const name = (l.feature.properties.NAME || l.feature.properties.name || "").trim();
       const c = l.getBounds().getCenter();
       const focused = FOCUS.has(name);
+      
+      // Estimate text width and height for centering
+      const estimatedWidth = name.length * 8; // Rough estimate: 8px per character
+      const estimatedHeight = 16; // Rough estimate for font height
+      
       L.marker([c.lat, c.lng], {
         interactive:false,
-        icon: L.divIcon({ className:"county-label", html:name, iconSize:[0,0] })
+        icon: L.divIcon({ 
+          className:"county-label", 
+          html:name, 
+          iconSize:[estimatedWidth, estimatedHeight],
+          iconAnchor:[estimatedWidth/2, estimatedHeight/2] // Center the icon
+        })
       })[focused ? "addTo" : "addTo"](labelLayer);
     });
   }
