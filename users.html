@@ -88,23 +88,24 @@
                let userHtml = `<h3 style="margin-top: 0; color: #333;">User Details</h3>`;
                
                // Define field display order and formatting
-               const fieldOrder = ['id', 'name', 'email', 'location', 'nodes', 'notes', 'is_admin', 'email_public'];
+               const fieldOrder = ['id', 'name', 'email', 'location', 'notes', 'nodes'];
                const fieldLabels = {
                  'id': 'User ID',
                  'name': 'Name', 
                  'email': 'Email',
                  'location': 'Location',
-                 'nodes': 'Nodes',
                  'notes': 'Notes',
-                 'is_admin': 'Administrator',
-                 'email_public': 'Email Public'
+                 'nodes': 'Nodes'
                };
+               
+               // Fields to skip entirely
+               const skipFields = ['is_admin', 'email_public'];
                
                // Display fields in preferred order, then any additional fields
                const displayedFields = new Set();
                
                fieldOrder.forEach(key => {
-                 if (data.hasOwnProperty(key) && data[key] !== null && data[key] !== undefined && data[key] !== '') {
+                 if (data.hasOwnProperty(key) && data[key] !== null && data[key] !== undefined && data[key] !== '' && !skipFields.includes(key)) {
                    const label = fieldLabels[key] || key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
                    let value = data[key];
                    
@@ -142,8 +143,6 @@
                      } else {
                        value = 'No active nodes';
                      }
-                   } else if (typeof value === 'boolean') {
-                     value = value ? 'Yes' : 'No';
                    } else if (key === 'email' && data.email_public !== false && value !== '--private--') {
                      value = `<a href="mailto:${value}">${value}</a>`;
                    } else if (typeof value === 'number') {
@@ -157,13 +156,11 @@
                
                // Display any additional fields not in the predefined order
                Object.keys(data).forEach(key => {
-                 if (!displayedFields.has(key) && data[key] !== null && data[key] !== undefined && data[key] !== '') {
+                 if (!displayedFields.has(key) && !skipFields.includes(key) && data[key] !== null && data[key] !== undefined && data[key] !== '') {
                    const label = fieldLabels[key] || key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
                    let value = data[key];
                    
-                   if (typeof value === 'boolean') {
-                     value = value ? 'Yes' : 'No';
-                   } else if (typeof value === 'number') {
+                   if (typeof value === 'number') {
                      value = value.toString();
                    }
                    
