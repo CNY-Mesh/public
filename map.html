@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CNYmesh Coverage Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="css/site.css">
+  <style>
+    html, body, #map { height: 100%; margin: 0; }
+    .legend {
+      background:#fff; padding:10px 12px; border-radius:10px;
+      box-shadow:0 2px 10px rgba(0,0,0,.15); font:14px/1.4 system-ui, sans-serif;
+    }
+    .legend h4 { margin:0 0 8px; font-size:14px; }
+    .legend .row { display:flex; align-items:center; gap:8px; margin:6px 0; }
+    .swatch { width:14px; height:14px; border-radius:3px; border:1px solid #777; }
+    .county-label { color:#111; font-weight:600; text-shadow:0 0 3px rgba(255,255,255,.9); }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+  // --- CONFIG ---
+  const FOCUS_JSON = "data/focus-counties.json";
+  const NY_GEOJSON = "data/ny-counties.geojson"; // keep this file in the repo
+  const NODES_GEOJSON = "https://api.cnymesh.org/nodes.geojson"; // live nodes
+  const REGIONAL = [
+    {name:"Syracuse", lat:43.0481, lng:-76.1474},
+    {name:"Rochester", lat:43.1566, lng:-77.6088},
+    {name:"Buffalo", lat:42.8864, lng:-78.8784},
+    {name:"Ithaca", lat:42.4439, lng:-76.5019},
+    {name:"Albany", lat:42.6526, lng:-73.7562}
+  ];
+
+  // --- MAP ---
+  const map = L.map('map', { zoomControl:true });
+  const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19, attribution: "&copy; OpenStreetMap contributors"
+  }).addTo(map);
+
+  let FOCUS = new Set();
+
+  // Layers
+  const countiesLayer = L.geoJSON(null, {
+    style: f => {
+      const name = (f.properties.NAME || f.properties.Name || f.properties.name || "").trim();
+      const focused = FOCUS.has(name);
+      return {
+        color: focused ? "#2f855a" : "#6b7280",
+        weight: focused ? 2 : 1,
+        fillColor: focused ? "#34d399" : "#d1d5db",
+        fillOpacity: focused ? 0.45 : 0.25
+      };
+    },
+    onEachFeature: (f, layer) => {
+      const name = (f.properties.NAME || f.properties.Name || f.properties.name || "County").trim();
+      const focused = FOCUS.has(name);
+      layer.bindPopup(`<strong>${name} County</strong><br>${focused ? "CNYmesh focus area" : "Neighboring county"}`);
+      layer.on({
+        mouseover: e => e.target.setStyle({ weight:3, fillOpacity: focused ? 0.6 : 0.35 }),
+        mouseout: e => countiesLayer.resetStyle(e.target)
+      });
+    }
+  }).addTo(map);
+
+  const labelLayer = L.layerGroup().addTo(map);
+  const regionalLayer = L.layerGroup(REGIONAL.map(c =>
+    L.marker([c.lat, c.lng]).bindTooltip(c.name, {direction:"top"})
+  ));
+
+  function addCountyLabels() {
+    labelLayer.clearLayers();
+    countiesLayer.eachLayer(l => {
+      const name = (l.feature.properties.NAME || l.feature.properties.name || "").trim();
+      const c = l.getBounds().getCenter();
+      const focused = FOCUS.has(name);
+      L.marker([c.lat, c.lng], {
+        interactive:false,
+        icon: L.divIcon({ className:"county-label", html:name, iconSize:[0,0] })
+      })[focused ? "addTo" : "addTo"](labelLayer);
+    });
+  }
+
+  // Live nodes (points)
+  const nodeMarker = (props={}) => {
+    const html = `<div style="width:14px;height:14px;border-radius:50%;background:#2563eb;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25)"></div>`;
+    return L.divIcon({ html, className:"", iconSize:[14,14] });
+  };
+  const nodesLayer = L.geoJSON(null, {
+    pointToLayer: (f, latlng) => L.marker(latlng, { icon: nodeMarker(f.properties) }),
+    onEachFeature: (f, layer) => {
+      const p = f.properties || {};
+      layer.bindPopup(`
+        <strong>${p.name || "Node"}</strong><br>
+        Type: ${p.type || "unknown"}<br>
+        Uptime: ${p.uptime || "—"}<br>
+        Notes: ${p.notes || "—"}
+      `);
+    }
+  });
+
+  // Controls
+  L.control.layers({ "OpenStreetMap": osm }, {
+    "County Labels": labelLayer,
+    "Regional Cities": regionalLayer,
+    "Live Nodes": nodesLayer
+  }, { collapsed:true }).addTo(map);
+
+  // Legend
+  const legend = L.control({ position:"bottomright" });
+  legend.onAdd = () => {
+    const div = L.DomUtil.create("div","legend");
+    div.innerHTML = `
+      <h4>CNYmesh Coverage</h4>
+      <div class="row"><span class="swatch" style="background:#34d399"></span> Focus counties</div>
+      <div class="row"><span class="swatch" style="background:#d1d5db"></span> Neighboring counties</div>
+      <div class="row"><span class="swatch" style="background:#2563eb"></span> Live nodes</div>
+    `;
+    return div;
+  };
+  legend.addTo(map);
+
+  // Boot
+  Promise.all([
+    fetch(FOCUS_JSON).then(r=>r.json()).then(a => { FOCUS = new Set(a); }),
+    fetch(NY_GEOJSON).then(r=>r.json())
+  ]).then(([_, ny]) => {
+    countiesLayer.addData(ny);
+    addCountyLabels();
+
+    // Fit to focus bounds
+    const focusBounds = [];
+    countiesLayer.eachLayer(l => {
+      const nm = (l.feature.properties.NAME || l.feature.properties.name || "").trim();
+      if (FOCUS.has(nm)) focusBounds.push(l.getBounds());
+    });
+    if (focusBounds.length) {
+      const b = focusBounds.reduce((acc, cur) => acc.extend(cur), L.latLngBounds(focusBounds[0]));
+      map.fitBounds(b.pad(0.1));
+    } else {
+      map.setView([43.05, -76.15], 8); // Syracuse
+    }
+  }).then(() => {
+    // Load live nodes (non-blocking)
+    fetch(NODES_GEOJSON, { mode: "cors" })
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(gj => nodesLayer.addData(gj).addTo(map))
+      .catch(() => console.warn("Nodes endpoint unavailable or CORS blocked"));
+  });
+</script>
+</body>
+</html>
