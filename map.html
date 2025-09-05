@@ -86,29 +86,70 @@
     });
   }
 
-  // Live nodes (points)
+  // Live nodes (points) and coverage circles
   const nodeMarker = (props={}) => {
     const html = `<div style="width:14px;height:14px;border-radius:50%;background:#2563eb;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25)"></div>`;
     return L.divIcon({ html, className:"", iconSize:[14,14] });
   };
-  const nodesLayer = L.geoJSON(null, {
-    pointToLayer: (f, latlng) => L.marker(latlng, { icon: nodeMarker(f.properties) }),
-    onEachFeature: (f, layer) => {
-      const p = f.properties || {};
-      layer.bindPopup(`
-        <strong>${p.name || "Node"}</strong><br>
-        Type: ${p.type || "unknown"}<br>
-        Uptime: ${p.uptime || "—"}<br>
-        Notes: ${p.notes || "—"}
-      `);
-    }
-  });
+
+  const nodesLayer = L.layerGroup();
+  const coverageLayer = L.layerGroup();
+
+  const processNodes = (geojson) => {
+    // Clear existing layers
+    nodesLayer.clearLayers();
+    coverageLayer.clearLayers();
+
+    // Create a temporary layer to process GeoJSON
+    const tempLayer = L.geoJSON(geojson, {
+      pointToLayer: (f, latlng) => {
+        const p = f.properties || {};
+        
+        // Create the node marker
+        const marker = L.marker(latlng, { icon: nodeMarker(p) });
+        marker.bindPopup(`
+          <strong>${p.name || "Node"}</strong><br>
+          Type: ${p.type || "unknown"}<br>
+          Uptime: ${p.uptime || "—"}<br>
+          Coverage: ${p.coverage_circle ? p.coverage_circle + " miles" : "—"}<br>
+          Notes: ${p.notes || "—"}
+        `);
+        
+        // Add marker to nodes layer
+        nodesLayer.addLayer(marker);
+        
+        // Create coverage circle if coverage_circle property exists
+        if (p.coverage_circle && typeof p.coverage_circle === 'number' && p.coverage_circle > 0) {
+          const radiusInMeters = p.coverage_circle * 1609.34; // Convert miles to meters
+          const circle = L.circle(latlng, {
+            radius: radiusInMeters,
+            color: '#2563eb',
+            weight: 1,
+            opacity: 0.6,
+            fillColor: '#2563eb',
+            fillOpacity: 0.1
+          });
+          
+          circle.bindTooltip(`${p.name || "Node"} - ${p.coverage_circle} mile coverage`, {
+            direction: 'top',
+            offset: [0, -10]
+          });
+          
+          // Add circle to coverage layer
+          coverageLayer.addLayer(circle);
+        }
+        
+        return marker;
+      }
+    });
+  };
 
   // Controls
   L.control.layers({ "OpenStreetMap": osm }, {
     "County Labels": labelLayer,
     "Regional Cities": regionalLayer,
-    "Live Nodes": nodesLayer
+    "Live Nodes": nodesLayer,
+    "Coverage Areas": coverageLayer
   }, { collapsed:true }).addTo(map);
 
   // Legend
@@ -120,6 +161,7 @@
       <div class="row"><span class="swatch" style="background:#34d399"></span> Focus counties</div>
       <div class="row"><span class="swatch" style="background:#d1d5db"></span> Neighboring counties</div>
       <div class="row"><span class="swatch" style="background:#2563eb"></span> Live nodes</div>
+      <div class="row"><span class="swatch" style="background:rgba(37,99,235,0.1);border:1px solid #2563eb"></span> RF coverage areas</div>
     `;
     return div;
   };
@@ -149,7 +191,11 @@
     // Load live nodes (non-blocking)
     fetch(NODES_GEOJSON, { mode: "cors" })
       .then(r => r.ok ? r.json() : Promise.reject(r.status))
-      .then(gj => nodesLayer.addData(gj).addTo(map))
+      .then(gj => {
+        processNodes(gj);
+        nodesLayer.addTo(map);
+        coverageLayer.addTo(map);
+      })
       .catch(() => console.warn("Nodes endpoint unavailable or CORS blocked"));
   });
 </script>
