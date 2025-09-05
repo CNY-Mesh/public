@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CNYmesh — Community-Powered Meshtastic in Central New York</title>
+  <meta name="description" content="CNYmesh is building a resilient, community-powered Meshtastic network across Central New York: Onondaga, Oswego, Madison, Oneida, Cayuga, and Cortland counties." />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="icon" href="favicon.ico" />
+  <meta property="og:title" content="CNYmesh — Community-Powered Meshtastic in Central New York" />
+  <meta property="og:description" content="Join us to expand Meshtastic coverage across Syracuse and surrounding counties. Host a node, learn, and connect." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cnymesh.org/" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/" aria-label="CNYmesh Home">
+      <span class="brand-mark">CNY</span><span class="brand-mark accent">mesh</span>
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#join">How to Join</a>
+      <a href="#resources">Technical</a>
+      <a href="#involved">Get Involved</a>
+      <a href="/map.html">Coverage Map</a>
+      <a class="btn btn-small" href="/faq.html">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content">
+  <!-- Load User data from API https://api.cnymesh.org/users/{id}, username is passed as a query parameter -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2>About CNYmesh Users</h2>
+      <p>
+        This page lists users who have opted in to be publicly listed as part of the CNYmesh community.
+        If you would like to be added, please email <a href="mailto:hello@cnymesh.org">hello@cnymesh.org</a>.
+      </p>
+    </div>
+  </section>
+
+  <section id="users" class="section">
+    <div class="container">
+      <script type="text/javascript">
+         const urlParams = new URLSearchParams(window.location.search);
+         const userId = urlParams.get("id");
+         if (userId) {
+           fetch(`https://api.cnymesh.org/users/${userId}`)
+             .then(response => response.json())
+             .then(data => {
+               const userList = document.getElementById("user-list");
+               const userItem = document.createElement("li");
+               userItem.textContent = data.username;
+               userList.appendChild(userItem);
+             });
+         } else {
+           fetch(`https://api.cnymesh.org/users`)
+             .then(response => response.json())
+             .then(data => {
+               const userList = document.getElementById("user-list");
+               data.forEach(user => {
+                 const userItem = document.createElement("li");
+                 userItem.textContent = user.username;
+                 userList.appendChild(userItem);
+               });
+             });
+         }
+        </script>
+      <ul id="user-list" class="user-list">
+        <!-- User entries will be populated here by JavaScript -->
+         
+      </ul>
+    </div>
+  </section>
+
+
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <div class="container">
+      <h2>Contact / Collaborate</h2>
+      <p>
+        Interested in hosting a node, coordinating a router site, or connecting your city’s group?
+        We’re especially looking to bridge Syracuse with Rochester, Buffalo, Ithaca, and Albany.
+      </p>
+      <ul class="contact-list">
+        <li>Email: <a href="mailto:hello@cnymesh.org">hello@cnymesh.org</a></li>
+        <li>API for live data: <code>https://api.cnymesh.org/</code></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong>CNYmesh</strong><br/>
+      Central New York Meshtastic Community
+    </div>
+    <nav aria-label="Footer">
+      <a href="/about.html">About</a>
+      <a href="/how-to-join.html">How to Join</a>
+      <a href="/technical-resources.html">Technical</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/map.html">Coverage Map</a>
+    </nav>
+    <div class="fineprint">© <span id="year"></span> CNYmesh</div>
+  </div>
+</footer>
+
+<script src="js/home.js" defer></script>
+</body>
+</html>
