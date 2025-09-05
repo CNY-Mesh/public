@@ -358,3 +358,46 @@ a {
   border-color: var(--border-color);
   background-color: var(--card-bg);
 }
+
+/* User details card */
+.user-details-card {
+  list-style: none;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background-color: var(--card-bg);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.user-details-card h3 {
+  margin-top: 0;
+  color: var(--text-color);
+}
+
+.user-details-card p {
+  margin: 8px 0;
+}
+
+.user-details-card strong {
+  color: var(--text-color);
+}
+
+/* Node card within user details */
+.node-card {
+  background: var(--card-alt-bg);
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 5px;
+  border-left: 3px solid var(--link-color);
+  transition: background-color 0.3s ease;
+}
+
+.node-card strong {
+  color: var(--text-color);
+}
+
+.node-card small {
+  color: var(--text-color);
+  opacity: 0.8;
+}

@@ -78,14 +78,9 @@
                
                // Display all fields for single user view
                const userItem = document.createElement("li");
-               userItem.style.listStyle = "none";
-               userItem.style.padding = "15px";
-               userItem.style.border = "1px solid #ddd";
-               userItem.style.borderRadius = "8px";
-               userItem.style.marginBottom = "15px";
-               userItem.style.backgroundColor = "#f9f9f9";
+               userItem.className = "user-details-card";
                
-               let userHtml = `<h3 style="margin-top: 0; color: #333;">User Details</h3>`;
+               let userHtml = `<h3>User Details</h3>`;
                
                // Define field display order and formatting
                const fieldOrder = ['id', 'name', 'email', 'location', 'notes', 'nodes'];
@@ -124,7 +119,7 @@
                          nodeIds.forEach(nodeId => {
                            const node = value[nodeId];
                            nodesHtml += `
-                             <div style="background: #f0f0f0; padding: 8px; margin: 5px 0; border-radius: 5px; border-left: 3px solid #2563eb;">
+                             <div class="node-card">
                                <strong>${nodeId}</strong><br>
                                <small>
                                  Type: ${node.type || 'Unknown'}<br>
@@ -149,7 +144,7 @@
                      value = value.toString();
                    }
                    
-                   userHtml += `<p style="margin: 8px 0;"><strong>${label}:</strong> ${value}</p>`;
+                   userHtml += `<p><strong>${label}:</strong> ${value}</p>`;
                    displayedFields.add(key);
                  }
                });
@@ -164,7 +159,7 @@
                      value = value.toString();
                    }
                    
-                   userHtml += `<p style="margin: 8px 0;"><strong>${label}:</strong> ${value}</p>`;
+                   userHtml += `<p><strong>${label}:</strong> ${value}</p>`;
                  }
                });
                
