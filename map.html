@@ -125,78 +125,80 @@
     nodesLayer.clearLayers();
     coverageLayer.clearLayers();
 
-    // Handle the new API format: {"type":"FeatureCollection","features":[{"CNYMesh-C-1":{"host":"AK2X",...}}]}
-    if (data.features && Array.isArray(data.features)) {
-      data.features.forEach(featureObj => {
-        // Each feature is an object with node ID as key and node data as value
-        Object.keys(featureObj).forEach(nodeId => {
-          const nodeData = featureObj[nodeId];
-          
-          if (!nodeData.location || !nodeData.location.lat || !nodeData.location.lon) {
-            console.warn('Skipping node without valid location:', nodeId, nodeData);
-            return;
-          }
-          
-          const latlng = L.latLng(nodeData.location.lat, nodeData.location.lon);
-          
-          // Create the node marker
-          const marker = L.marker(latlng, { icon: nodeMarker(nodeData) });
-          
-          // Build popup content with all available fields
-          let popupContent = `<strong>${nodeId}</strong><br>`;
-          
-          if (nodeData.host) {
-            popupContent += `Host: <a href="/users.html?id=${nodeData.host}" target="_blank">${nodeData.host}</a><br>`;
-          }
-          if (nodeData.type) {
-            popupContent += `Type: ${nodeData.type}<br>`;
-          }
-          if (nodeData.municipality) {
-            popupContent += `Municipality: ${nodeData.municipality}<br>`;
-          }
-          if (nodeData.uptime) {
-            popupContent += `Uptime: ${nodeData.uptime}<br>`;
-          }
-          if (nodeData.coverage_circle) {
-            popupContent += `Coverage: ${nodeData.coverage_circle} miles<br>`;
-          }
-          if (nodeData.notes) {
-            popupContent += `Notes: ${nodeData.notes}<br>`;
-          }
-          
-          // Remove trailing <br> and add location coordinates
-          popupContent = popupContent.replace(/<br>$/, '');
-          popupContent += `<br><small>Coordinates: ${nodeData.location.lat.toFixed(6)}, ${nodeData.location.lon.toFixed(6)}</small>`;
-          
-          marker.bindPopup(popupContent);
-          
-          // Add marker to nodes layer
-          nodesLayer.addLayer(marker);
-          
-          // Create coverage circle if coverage_circle property exists
-          if (nodeData.coverage_circle && typeof nodeData.coverage_circle === 'number' && nodeData.coverage_circle > 0) {
-            const radiusInMeters = nodeData.coverage_circle * 1609.34; // Convert miles to meters
-            const circle = L.circle(latlng, {
-              radius: radiusInMeters,
-              color: '#2563eb',
-              weight: 1,
-              opacity: 0.6,
-              fillColor: '#2563eb',
-              fillOpacity: 0.1
-            });
+    // Handle proper GeoJSON format: {"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[lon,lat]},"properties":{...}}]}
+    if (data.type === "FeatureCollection" && data.features && Array.isArray(data.features)) {
+      data.features.forEach(feature => {
+        // Check if this is a proper GeoJSON Feature
+        if (feature.type === "Feature" && feature.geometry && feature.properties) {
+          // Extract coordinates from GeoJSON geometry
+          if (feature.geometry.type === "Point" && feature.geometry.coordinates && feature.geometry.coordinates.length >= 2) {
+            const [lon, lat] = feature.geometry.coordinates;
+            const latlng = L.latLng(lat, lon);
+            const props = feature.properties;
             
-            circle.bindTooltip(`${nodeId} - ${nodeData.coverage_circle} mile coverage`, {
-              direction: 'top',
-              offset: [0, -10]
-            });
+            // Create the node marker
+            const marker = L.marker(latlng, { icon: nodeMarker(props) });
             
-            // Add circle to coverage layer
-            coverageLayer.addLayer(circle);
+            // Build popup content with all available fields
+            let popupContent = `<strong>${props.name || "Unknown Node"}</strong><br>`;
+            
+            if (props.host) {
+              popupContent += `Host: <a href="/users.html?id=${props.host}" target="_blank">${props.host}</a><br>`;
+            }
+            if (props.type) {
+              popupContent += `Type: ${props.type}<br>`;
+            }
+            if (props.municipality) {
+              popupContent += `Municipality: ${props.municipality}<br>`;
+            }
+            if (props.uptime) {
+              popupContent += `Uptime: ${props.uptime}<br>`;
+            }
+            if (props.coverage_circle) {
+              popupContent += `Coverage: ${props.coverage_circle} miles<br>`;
+            }
+            if (props.notes) {
+              popupContent += `Notes: ${props.notes}<br>`;
+            }
+            
+            // Remove trailing <br> and add location coordinates
+            popupContent = popupContent.replace(/<br>$/, '');
+            popupContent += `<br><small>Coordinates: ${lat.toFixed(6)}, ${lon.toFixed(6)}</small>`;
+            
+            marker.bindPopup(popupContent);
+            
+            // Add marker to nodes layer
+            nodesLayer.addLayer(marker);
+            
+            // Create coverage circle if coverage_circle property exists
+            if (props.coverage_circle && typeof props.coverage_circle === 'number' && props.coverage_circle > 0) {
+              const radiusInMeters = props.coverage_circle * 1609.34; // Convert miles to meters
+              const circle = L.circle(latlng, {
+                radius: radiusInMeters,
+                color: '#2563eb',
+                weight: 1,
+                opacity: 0.6,
+                fillColor: '#2563eb',
+                fillOpacity: 0.1
+              });
+              
+              circle.bindTooltip(`${props.name || "Node"} - ${props.coverage_circle} mile coverage`, {
+                direction: 'top',
+                offset: [0, -10]
+              });
+              
+              // Add circle to coverage layer
+              coverageLayer.addLayer(circle);
+            }
+          } else {
+            console.warn('Skipping feature with invalid Point geometry:', feature);
           }
-        });
+        } else {
+          console.warn('Skipping invalid GeoJSON feature:', feature);
+        }
       });
     } else {
-      console.error('Invalid nodes API response format:', data);
+      console.error('Invalid GeoJSON FeatureCollection format:', data);
     }
   };
 
