@@ -68,7 +68,7 @@
                }
                
                // Check if we have valid user data
-               if (!data.id || !data.name) {
+               if (!data.id) {
                  const errorItem = document.createElement("li");
                  errorItem.textContent = "Error: Invalid user data received";
                  errorItem.style.color = "red";
@@ -76,8 +76,69 @@
                  return;
                }
                
+               // Display all fields for single user view
                const userItem = document.createElement("li");
-               userItem.innerHTML = `<strong>${data.id}</strong>: ${data.name}`;
+               userItem.style.listStyle = "none";
+               userItem.style.padding = "15px";
+               userItem.style.border = "1px solid #ddd";
+               userItem.style.borderRadius = "8px";
+               userItem.style.marginBottom = "15px";
+               userItem.style.backgroundColor = "#f9f9f9";
+               
+               let userHtml = `<h3 style="margin-top: 0; color: #333;">User Details</h3>`;
+               
+               // Define field display order and formatting
+               const fieldOrder = ['id', 'name', 'email', 'location', 'nodes', 'notes', 'is_admin', 'email_public'];
+               const fieldLabels = {
+                 'id': 'User ID',
+                 'name': 'Name', 
+                 'email': 'Email',
+                 'location': 'Location',
+                 'nodes': 'Number of Nodes',
+                 'notes': 'Notes',
+                 'is_admin': 'Administrator',
+                 'email_public': 'Email Public'
+               };
+               
+               // Display fields in preferred order, then any additional fields
+               const displayedFields = new Set();
+               
+               fieldOrder.forEach(key => {
+                 if (data.hasOwnProperty(key) && data[key] !== null && data[key] !== undefined && data[key] !== '') {
+                   const label = fieldLabels[key] || key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
+                   let value = data[key];
+                   
+                   // Format different data types
+                   if (typeof value === 'boolean') {
+                     value = value ? 'Yes' : 'No';
+                   } else if (key === 'email' && data.email_public !== false) {
+                     value = `<a href="mailto:${value}">${value}</a>`;
+                   } else if (typeof value === 'number') {
+                     value = value.toString();
+                   }
+                   
+                   userHtml += `<p style="margin: 8px 0;"><strong>${label}:</strong> ${value}</p>`;
+                   displayedFields.add(key);
+                 }
+               });
+               
+               // Display any additional fields not in the predefined order
+               Object.keys(data).forEach(key => {
+                 if (!displayedFields.has(key) && data[key] !== null && data[key] !== undefined && data[key] !== '') {
+                   const label = fieldLabels[key] || key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
+                   let value = data[key];
+                   
+                   if (typeof value === 'boolean') {
+                     value = value ? 'Yes' : 'No';
+                   } else if (typeof value === 'number') {
+                     value = value.toString();
+                   }
+                   
+                   userHtml += `<p style="margin: 8px 0;"><strong>${label}:</strong> ${value}</p>`;
+                 }
+               });
+               
+               userItem.innerHTML = userHtml;
                userList.appendChild(userItem);
              })
              .catch(error => {
@@ -124,6 +185,7 @@
                  return;
                }
                
+               // For list view, show only ID and Name
                users.forEach(user => {
                  // Validate each user object
                  if (user.id && user.name) {
