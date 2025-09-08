@@ -46,8 +46,8 @@ a:hover {
 
 /* Header & Nav */
 .site-header {
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -56,22 +56,107 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 .brand {
   font-size: 1.5rem;
   font-weight: 700;
+  color: var(--text-color);
+  text-decoration: none;
 }
 .brand .accent {
   color: #16a34a;
 }
-.main-nav a {
-  margin-left: 1rem;
-  font-weight: 500;
+
+/* Mobile menu button */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 51;
 }
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.main-nav a {
+  font-weight: 500;
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.main-nav a:hover {
+  background: var(--card-alt-bg);
+}
+
+.main-nav a.active {
+  background: var(--link-color);
+  color: white;
+}
+
 .main-nav .btn-small {
   padding: 0.25rem 0.75rem;
-  border: 1px solid #2563eb;
+  border: 1px solid var(--link-color);
   border-radius: 6px;
+  background: var(--link-color);
+  color: white;
+}
+
+.main-nav .btn-small:hover {
+  background: var(--text-color);
+  border-color: var(--text-color);
+}
+
+/* Mobile responsive menu */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .main-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--nav-bg);
+    border-top: 1px solid var(--nav-border);
+    border-bottom: 1px solid var(--nav-border);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 1rem;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 50;
+  }
+  
+  .main-nav.mobile-nav-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .main-nav a {
+    padding: 0.75rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .main-nav a:last-child {
+    border-bottom: none;
+  }
 }
 
 /* Hero */
