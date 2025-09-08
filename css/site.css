@@ -691,3 +691,94 @@ a {
     gap: 0.25rem;
   }
 }
+
+/* Channel Table */
+.channel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.channel-table th,
+.channel-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: top;
+}
+
+.channel-table th {
+  background: var(--card-alt-bg);
+  font-weight: 600;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.channel-table td {
+  color: var(--text-color);
+}
+
+.channel-table tr:hover {
+  background: var(--card-alt-bg);
+}
+
+.channel-table strong {
+  color: var(--link-color);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .channel-table {
+    font-size: 0.8rem;
+  }
+  
+  .channel-table th,
+  .channel-table td {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .channel-table,
+  .channel-table thead,
+  .channel-table tbody,
+  .channel-table th,
+  .channel-table td,
+  .channel-table tr {
+    display: block;
+  }
+  
+  .channel-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  .channel-table tr {
+    border: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background: var(--card-bg);
+  }
+  
+  .channel-table td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .channel-table td:before {
+    content: attr(data-label) ": ";
+    position: absolute;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+}

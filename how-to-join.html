@@ -49,8 +49,49 @@
         <li><strong>Email updates:</strong> <a href="mailto:hello@cnymesh.org">hello@cnymesh.org</a></li>
       </ul>
 
-      <h2>Step 3 — Join the CNYmesh channel</h2>
-      <p>Use the app to join our shared community channel so local nodes can link up and relay messages.</p>
+      <h2>Step 3 — Join the CNYmesh channels</h2>
+      <p>CNYmesh uses multiple Meshtastic channels to organize communication. The Primary channel is for node discovery and general chat, while Secondary channels serve specific roles like regional mesh chats and local alerts.</p>
+
+      <div class="card">
+        <h3>CNYmesh Channel Structure</h3>
+        <table class="channel-table">
+          <thead>
+            <tr>
+              <th>Channel Name</th>
+              <th>Channel Role</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Channel Name"><strong>LongFast</strong></td>
+              <td data-label="Channel Role">Primary</td>
+              <td data-label="Purpose">Node discovery, chatting with nodes outside the CNYmesh network</td>
+            </tr>
+            <tr>
+              <td data-label="Channel Name"><strong>CNYmesh</strong></td>
+              <td data-label="Channel Role">Secondary</td>
+              <td data-label="Purpose">Primary internal mesh communication for Central New York</td>
+            </tr>
+            <tr>
+              <td data-label="Channel Name"><strong>CNYmesh-Alerts</strong></td>
+              <td data-label="Channel Role">Secondary</td>
+              <td data-label="Purpose">Local weather alerts and other emergency notices for Central New York</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>How to Join CNYmesh Channels</h3>
+        <ol class="steps">
+          <li>Open the Meshtastic app on your device</li>
+          <li>Scan the QR Code below (when available)</li>
+          <li>Select <strong>Replace</strong> when prompted</li>
+          <li>Click <strong>Accept</strong> to confirm the channel configuration</li>
+        </ol>
+        <p><em>QR Code for easy channel setup coming soon. For now, manually configure the channels listed above in your Meshtastic app.</em></p>
+      </div>
 
       <h2>Step 4 — Configure LoRa Radio Settings</h2>
       <p>For optimal performance on the CNYmesh network, configure your device with these specific LoRa settings:</p>
