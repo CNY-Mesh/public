@@ -648,3 +648,46 @@ a {
   color: var(--text-color);
   opacity: 0.8;
 }
+
+/* Configuration Lists */
+.config-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.config-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.config-list li:last-child {
+  border-bottom: none;
+}
+
+.config-list strong {
+  color: var(--text-color);
+  font-weight: 600;
+  flex: 1;
+}
+
+.config-list code {
+  background: var(--card-alt-bg);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  color: var(--link-color);
+  border: 1px solid var(--border-color);
+}
+
+@media (max-width: 600px) {
+  .config-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}

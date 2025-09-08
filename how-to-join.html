@@ -52,7 +52,40 @@
       <h2>Step 3 — Join the CNYmesh channel</h2>
       <p>Use the app to join our shared community channel so local nodes can link up and relay messages.</p>
 
-      <h2>Step 4 — Host a node (recommended)</h2>
+      <h2>Step 4 — Configure LoRa Radio Settings</h2>
+      <p>For optimal performance on the CNYmesh network, configure your device with these specific LoRa settings:</p>
+      
+      <div class="card">
+        <h3>LoRa Configuration</h3>
+        <ul class="config-list">
+          <li><strong>Use Modem Preset:</strong> True</li>
+          <li><strong>Modem Preset:</strong> Long_Fast</li>
+          <li><strong>Frequency Offset:</strong> 0.0</li>
+          <li><strong>Region:</strong> United States</li>
+          <li><strong>Hop Limit:</strong> 3 (minimum) - 7 (maximum)</li>
+          <li><strong>TX Enabled:</strong> True</li>
+          <li><strong>TX Power:</strong> 30</li>
+          <li><strong>Frequency Slot:</strong> 20</li>
+          <li><strong>Override Duty Cycle:</strong> True</li>
+          <li><strong>Override Frequency:</strong> 906.875</li>
+          <li><strong>Ignore MQTT:</strong> False</li>
+          <li><strong>OK to MQTT:</strong> True</li>
+        </ul>
+      </div>
+
+      <h2>Step 5 — Configure MQTT Settings</h2>
+      <p>Enable MQTT to connect your node to the wider mesh network and allow remote monitoring:</p>
+      
+      <div class="card">
+        <h3>MQTT Configuration</h3>
+        <ul class="config-list">
+          <li><strong>MQTT Server:</strong> Default Meshtastic MQTT server</li>
+          <li><strong>Root Topic:</strong> <code>msh/US/NY/CNY</code></li>
+        </ul>
+        <p><em>This connects your node to the Central New York mesh topic for regional coordination.</em></p>
+      </div>
+
+      <h2>Step 6 — Host a node (recommended)</h2>
       <ul class="checklist">
         <li>Place near a window or outdoors, weather-protected</li>
         <li>Elevation matters: rooftops, towers, or hills</li>
