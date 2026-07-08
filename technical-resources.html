@@ -81,6 +81,66 @@
   </section>
   <section class="section">
     <div class="container">
+    <h2 id="meshtastic-infrastructure-node">Meshtastic Infrastructure Node Settings</h2>
+<p>
+  Infrastructure nodes are fixed, powered Meshtastic nodes placed at high-elevation or strategic
+  locations to extend CNYmesh coverage. Follow the settings below to configure your node as a
+  reliable infrastructure relay.
+</p>
+
+<h3>Choosing the Correct Node Role</h3>
+<p>
+  Meshtastic offers several node roles. Choosing the right one is important for infrastructure nodes.
+</p>
+<ul class="config-list">
+  <li><strong>Router</strong> <code>ROUTER</code> — <em>Recommended for most infrastructure nodes.</em> Prioritizes packet relay over client features. Sends position and telemetry at reduced intervals, maximizes hop participation, and remains fully manageable over the mesh.</li>
+  <li><strong>Router and Client</strong> <code>ROUTER_CLIENT</code> — A good choice if the operator also wants to use the node for messaging. Behaves like Router but retains full client functionality.</li>
+  <li><strong>Repeater</strong> <code>REPEATER</code> — <strong>Often the wrong choice.</strong> Repeater disables position broadcasts, telemetry, admin-over-mesh, and most user-facing features. It is designed only for bare-minimum relay hardware where memory and CPU are severely constrained. Avoid using Repeater unless you have a specific reason and understand the limitations.</li>
+  <li><strong>Client</strong> <code>CLIENT</code> — Default mode. Suitable for personal devices but not optimized for infrastructure use.</li>
+</ul>
+<p>
+  <strong>Summary:</strong> Set your infrastructure node to <code>ROUTER</code> or <code>ROUTER_CLIENT</code>.
+  Reserve <code>REPEATER</code> only for dedicated bare-relay hardware where features are intentionally not needed.
+</p>
+
+<h3>LoRa Radio Configuration</h3>
+<ul class="config-list">
+  <li><strong>Use Modem Preset:</strong> True</li>
+  <li><strong>Modem Preset:</strong> Long_Fast</li>
+  <li><strong>Region:</strong> United States</li>
+  <li><strong>Hop Limit:</strong> 3 (minimum) – 7 (maximum)</li>
+  <li><strong>TX Enabled:</strong> True</li>
+  <li><strong>TX Power:</strong> 30</li>
+  <li><strong>Frequency Slot:</strong> 20</li>
+  <li><strong>Override Duty Cycle:</strong> True</li>
+  <li><strong>Override Frequency:</strong> 906.875 MHz</li>
+  <li><strong>Ignore MQTT:</strong> False</li>
+  <li><strong>OK to MQTT:</strong> True</li>
+</ul>
+
+<h3>MQTT Configuration</h3>
+<p>
+  Enable MQTT on infrastructure nodes to bridge the local mesh to the regional network and allow
+  remote monitoring via the <a href="https://data.cnymesh.org" target="_blank" rel="noopener">CNYmesh Live Dashboard</a>.
+</p>
+<ul class="config-list">
+  <li><strong>MQTT Server:</strong> Default Meshtastic MQTT server</li>
+  <li><strong>Root Topic:</strong> <code>msh/US/NY/CNY</code></li>
+  <li><strong>Uplink Enabled:</strong> True (on CNYmesh channel)</li>
+  <li><strong>Downlink Enabled:</strong> True (on CNYmesh channel)</li>
+</ul>
+
+<h3>Power &amp; Uptime Recommendations</h3>
+<ul class="bullets">
+  <li>Power infrastructure nodes from AC or solar for continuous 24/7 operation</li>
+  <li>Disable power-saving / sleep modes to ensure the node always participates in routing</li>
+  <li>Place nodes at elevation — rooftops, towers, or hilltops — to maximize range</li>
+  <li>Use quality weatherproof enclosures for outdoor installs (critical for CNY winters)</li>
+</ul>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
     <h2 id="meshcore-repeater-settings">MeshCore Repeater Settings</h2>
 <p>
   CNYmesh is publishing common MeshCore repeater settings so operators across Central New York are using
