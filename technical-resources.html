@@ -79,6 +79,93 @@
       </aside>
     </div>
   </section>
+  <section>
+    <h2 id="meshcore-repeater-settings">MeshCore Repeater Settings</h2>
+<p>
+  CNYmesh is publishing common MeshCore repeater settings so operators across Central New York are using
+  the same baseline configuration. Please update repeaters and fixed infrastructure nodes to match the
+  current CNY MeshCore settings below.
+</p>
+
+<h3>Base Radio Configuration</h3>
+<ul class="config-list">
+  <li><strong>Frequency</strong> <code>910.525 MHz</code></li>
+  <li><strong>Bandwidth</strong> <code>62.5 kHz</code></li>
+  <li><strong>Spreading Factor</strong> <code>7</code></li>
+  <li><strong>Coding Rate</strong> <code>8</code></li>
+  <li><strong>Transmit Power</strong> <code>22</code></li>
+</ul>
+
+<h4>Apply Base Settings</h4>
+<ul class="bullets">
+  <li><code>set freq 910525</code></li>
+  <li><code>set radio bw 62500 sf 7 cr 8</code></li>
+  <li><code>set tx 22</code></li>
+</ul>
+
+<h4>Verify Base Settings</h4>
+<ul class="bullets">
+  <li><code>get radio</code></li>
+  <li><code>get freq</code></li>
+  <li><code>get tx</code></li>
+</ul>
+
+<h3>2-Byte Hash Mode</h3>
+<p>
+  MeshCore repeaters should use 2-byte hash mode. This helps reduce ID collisions and improves overall
+  mesh reliability as the regional network grows.
+</p>
+
+<h4>Apply 2-Byte Hash Mode and Sync Clock</h4>
+<ul class="bullets">
+  <li><code>set path.hash.mode 1</code></li>
+  <li><code>reboot</code></li>
+  <li><code>clock sync</code></li>
+</ul>
+
+<h4>Verify Hash Mode After Reboot</h4>
+<ul class="bullets">
+  <li><code>get path.hash.mode</code></li>
+</ul>
+<p>
+  After rebooting, also check the device status tab to confirm uptime and clock status.
+</p>
+
+<h3>Regional Configuration</h3>
+<p>
+  CNYmesh uses a nested regional structure so traffic can be organized without creating unnecessary flood
+  traffic for neighboring meshes.
+</p>
+<ul class="bullets">
+  <li><strong><code>us</code></strong> — national level</li>
+  <li><strong><code>us-ny</code></strong> — New York State level</li>
+  <li><strong><code>us-ny-cny</code></strong> — Central New York local level</li>
+</ul>
+<p>
+  Regional or statewide channels should use <code>us-ny</code> where appropriate. Local CNY repeater and flood
+  traffic should use the CNY regional structure so local traffic does not unnecessarily propagate into
+  neighboring local meshes.
+</p>
+
+<h4>Apply Repeater Regions</h4>
+<ul class="bullets">
+  <li><code>region put us</code></li>
+  <li><code>region put us-ny us</code></li>
+  <li><code>region put us-ny-cny us-ny</code></li>
+  <li><code>region allowf us</code></li>
+  <li><code>region allowf us-ny</code></li>
+  <li><code>region allowf us-ny-cny</code></li>
+  <li><code>region save</code></li>
+</ul>
+
+<h4>Verify Regional Settings</h4>
+<ul class="bullets">
+  <li><code>region</code></li>
+</ul>
+<p>
+  The region output should show the nested structure from <code>us</code> to <code>us-ny</code> to <code>us-ny-cny</code>.
+</p>
+  </section>
 </main>
 
 <footer class="site-footer">
