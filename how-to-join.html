@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>How to Join — CNYmesh</title>
-  <meta name="description" content="Step-by-step guide to joining CNYmesh, getting on Meshtastic quickly, and following our MeshCore exploration updates." />
+  <meta name="description" content="Join the CNYmesh community — a grassroots mesh networking effort across Central New York using Meshtastic and MeshCore." />
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
@@ -22,9 +22,10 @@
     </button>
     <nav class="main-nav" aria-label="Primary">
       <a href="/#about">About</a>
-      <a href="/#join">How to Join</a>
+      <a href="/how-to-join.html" class="active">How to Join</a>
+      <a href="/mesh-protocols.html">Mesh Protocols</a>
       <a href="/#resources">Technical</a>
-      <a href="/links-resources.html">Links & Resources</a>
+      <a href="/links-resources.html">Links &amp; Resources</a>
       <a href="/map.html">Coverage Map</a>
       <a href="/#involved">Get Involved</a>
       <a class="btn btn-small" href="/faq.html">FAQ</a>
@@ -33,120 +34,98 @@
 </header>
 
 <main id="content">
-  <section class="section">
+  <section class="hero-page">
     <div class="container">
       <h1>How to Join CNYmesh</h1>
-      <p>It’s simple and affordable to get started. <strong>The step-by-step instructions on this page are for Meshtastic setup.</strong> Dedicated MeshCore setup instructions are coming soon as our MeshCore rollout guidance is finalized.</p>
+      <p class="lede">CNYmesh is an open, community-driven mesh networking project in Central New York. There are no membership fees, no sign-up forms, and no gatekeeping — just connect, participate, and help the network grow.</p>
+    </div>
+  </section>
 
-      <h2>Meshtastic Setup Steps</h2>
+  <section class="section">
+    <div class="container two-col">
+      <div>
+        <h2>Who we are</h2>
+        <p>
+          CNYmesh is a grassroots group of volunteers building a resilient, community-owned radio mesh network across the Syracuse region. Our focus counties are <strong>Onondaga, Oswego, Madison, Oneida, Cayuga,</strong> and <strong>Cortland</strong>, with ongoing coordination toward Rochester, Buffalo, Ithaca, and Albany.
+        </p>
+        <p>
+          We operate networks using both <strong>Meshtastic</strong> and <strong>MeshCore</strong> — two different open-source protocols that run on affordable LoRa radios. You don't need to be an engineer or a licensed ham operator to participate. Most people are up and running within an afternoon.
+        </p>
 
-      <h3>Step 1 — Get a device</h3>
-      <p>Popular choices: <strong>T-Beam</strong>, <strong>Heltec V3</strong>, or <strong>LILYGO T-Echo</strong>. Most cost <strong>$30–$100</strong>.</p>
+        <h2>What participation looks like</h2>
+        <p>There's no single way to be part of CNYmesh. Members contribute in different ways depending on their interests and resources:</p>
+        <ul class="checklist">
+          <li><strong>Carry a node</strong> — a phone-sized device extends the network wherever you go</li>
+          <li><strong>Host a fixed node</strong> — place a node at home, work, or a high-elevation site for 24/7 coverage</li>
+          <li><strong>Join the conversation</strong> — share knowledge, ask questions, and help onboard others</li>
+          <li><strong>Test and document</strong> — field tests, range experiments, and real-world notes help everyone</li>
+          <li><strong>Build infrastructure</strong> — high-elevation relay nodes extend coverage for an entire neighborhood</li>
+        </ul>
 
-      <h3>Step 2 — Install the Meshtastic app</h3>
-      <p>Install on Android/iOS, pair over Bluetooth, set your handle/callsign, and configure basic settings.</p>
-
-      <h3>Step 2A — Join us on social media (optional/recommended)</h3>
-      <p>Connect with the CNYmesh community for support, updates, and collaboration:</p>
-      <ul class="bullets">
-        <li><strong>Live Dashboard:</strong> <a href="https://data.cnymesh.org" target="_blank" rel="noopener">View real-time mesh data and network activity</a></li>
-        <li><strong>Facebook Group:</strong> <a href="https://www.facebook.com/groups/cnymesh" target="_blank" rel="noopener">Join our Facebook community</a></li>
-        <li><strong>Discord Server:</strong> <a href="https://discord.gg/xBb5eGTpuy" target="_blank" rel="noopener">Join our Discord for real-time chat</a></li>
-        <li><strong>Email updates:</strong> <a href="mailto:hello@cnymesh.org">hello@cnymesh.org</a></li>
-      </ul>
-
-      <h3>Step 3 — Join the CNYmesh channels</h3>
-      <p>CNYmesh uses multiple Meshtastic channels to organize communication. The Primary channel is for node discovery and general chat, while Secondary channels serve specific roles like regional mesh chats and local alerts.</p>
-
-      <div class="card">
-        <h3>CNYmesh Channel Structure</h3>
-        <table class="channel-table">
-          <thead>
-            <tr>
-              <th>Channel Name</th>
-              <th>Channel Role</th>
-              <th>Purpose</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td data-label="Channel Name"><strong>LongFast</strong></td>
-              <td data-label="Channel Role">Primary</td>
-              <td data-label="Purpose">Node discovery, chatting with nodes outside the CNYmesh network</td>
-            </tr>
-            <tr>
-              <td data-label="Channel Name"><strong>CNYmesh</strong></td>
-              <td data-label="Channel Role">Secondary</td>
-              <td data-label="Purpose">Primary internal mesh communication for Central New York</td>
-            </tr>
-            <tr>
-              <td data-label="Channel Name"><strong>CNYmesh-EAS</strong></td>
-              <td data-label="Channel Role">Secondary</td>
-              <td data-label="Purpose">Local weather alerts and other emergency notices for Central New York</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="card">
-        <h4>How to Join CNYmesh Channels</h4>
-        <ol class="steps">
-          <li>Open the Meshtastic app on your device</li>
-          <li>Scan the QR Code below</li>
-          <li>Select <strong>Replace</strong> when prompted</li>
-          <li>Click <strong>Accept</strong> to confirm the channel configuration</li>
-        </ol>
-        
-        <div style="text-align: center; margin: 2rem 0;">
-          <img src="/img/CNYmeshQR.png" alt="CNYmesh channel configuration QR code" style="max-width: 300px; width: 100%; height: auto; border: 1px solid var(--border-color); border-radius: 8px;">
-          <p style="margin-top: 1rem; font-size: 0.9em; color: var(--text-muted);">
-            <strong>CNYmesh Channel Configuration QR Code</strong><br>
-            Scan with your Meshtastic app to automatically join our channels
-          </p>
+        <h2>Getting started with a node</h2>
+        <p>
+          If you're ready to put a device on the air, the first step is picking a protocol. Both Meshtastic and MeshCore are active on the CNYmesh network — the <a href="/mesh-protocols.html">Mesh Protocols page</a> can help you decide which to try first.
+        </p>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
+          <a class="btn" href="/getting-started/meshtastic.html">Meshtastic setup guide</a>
+          <a class="btn btn-secondary" href="/getting-started/meshcore.html">MeshCore setup guide</a>
         </div>
       </div>
 
-      <h3>Step 4 — Configure LoRa Radio Settings</h3>
-      <p>For optimal performance on the CNYmesh network, configure your device with these specific LoRa settings:</p>
-      
-      <div class="card">
-        <h3>LoRa Configuration</h3>
-        <ul class="config-list">
-          <li><strong>Use Modem Preset:</strong> True</li>
-          <li><strong>Modem Preset:</strong> Long_Fast</li>
-          <li><strong>Frequency Offset:</strong> 0.0</li>
-          <li><strong>Region:</strong> United States</li>
-          <li><strong>Hop Limit:</strong> 3 (minimum) - 7 (maximum)</li>
-          <li><strong>TX Enabled:</strong> True</li>
-          <li><strong>TX Power:</strong> 30</li>
-          <li><strong>Frequency Slot:</strong> 20</li>
-          <li><strong>Override Duty Cycle:</strong> True</li>
-          <li><strong>Override Frequency:</strong> 906.875</li>
-          <li><strong>Ignore MQTT:</strong> False</li>
-          <li><strong>OK to MQTT:</strong> True</li>
-        </ul>
+      <aside>
+        <div class="card">
+          <h3>Connect with the community</h3>
+          <p>The best way to get started is to introduce yourself and ask questions. Our community is friendly and active.</p>
+          <ul class="bullets">
+            <li><strong>Discord:</strong> <a href="https://discord.gg/xBb5eGTpuy" target="_blank" rel="noopener">Join our Discord server</a> — real-time chat and support</li>
+            <li><strong>Facebook:</strong> <a href="https://www.facebook.com/groups/cnymesh" target="_blank" rel="noopener">CNYmesh Facebook group</a> — announcements and discussions</li>
+            <li><strong>Email:</strong> <a href="mailto:hello@cnymesh.org">hello@cnymesh.org</a></li>
+          </ul>
+        </div>
+
+        <div class="card" style="margin-top:1.5rem;">
+          <h3>Follow the network live</h3>
+          <p>See active nodes, recent messages, and network growth in real time.</p>
+          <p><a class="btn" href="https://data.cnymesh.org" target="_blank" rel="noopener">View live dashboard</a></p>
+          <p><a class="btn btn-secondary" href="/map.html">Open coverage map</a></p>
+        </div>
+
+        <div class="card" style="margin-top:1.5rem;">
+          <h3>Not sure which protocol?</h3>
+          <p>Read the side-by-side comparison of Meshtastic and MeshCore to find out which fits your goals best.</p>
+          <p><a class="link-arrow" href="/mesh-protocols.html">Compare protocols</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <h2>Frequently asked questions</h2>
+      <div class="two-col">
+        <div>
+          <h3>Do I need a ham license?</h3>
+          <p>No. Both Meshtastic and MeshCore operate on the 915 MHz ISM band, which is license-free under FCC Part 15. You can participate without any radio license at all.</p>
+
+          <h3>How much does it cost?</h3>
+          <p>Most starter devices cost between <strong>$30 and $100</strong>. There are no ongoing fees or subscriptions involved in CNYmesh.</p>
+
+          <h3>Is there a formal membership process?</h3>
+          <p>No. CNYmesh is an open community. Showing up in Discord or Facebook and putting a node on the air is all it takes.</p>
+        </div>
+        <div>
+          <h3>What range can I expect?</h3>
+          <ul class="bullets">
+            <li>Urban / dense area: ½–2 miles</li>
+            <li>Suburban / rural with good placement: 5–10+ miles</li>
+            <li>High elevation or line-of-sight: 20+ miles is possible</li>
+          </ul>
+
+          <h3>Will it work during a power outage?</h3>
+          <p>Yes. Nodes communicate peer-to-peer by radio. Battery-powered or solar-powered nodes continue operating when the grid is down.</p>
+        </div>
       </div>
-
-      <h3>Step 5 — Configure MQTT Settings</h3>
-      <p>Enable MQTT to connect your node to the wider mesh network and allow remote monitoring:</p>
-      
-      <div class="card">
-        <h3>MQTT Configuration</h3>
-        <ul class="config-list">
-          <li><strong>MQTT Server:</strong> Default Meshtastic MQTT server</li>
-          <li><strong>Root Topic:</strong> <code>msh/US/NY/CNY</code></li>
-        </ul>
-        <p><em>This connects your node to the Central New York mesh topic for regional coordination.</em></p>
-      </div>
-
-      <h3>Step 6 — Host a node (recommended)</h3>
-      <ul class="checklist">
-        <li>Place near a window or outdoors, weather-protected</li>
-        <li>Elevation matters: rooftops, towers, or hills</li>
-        <li>Use USB or solar for 24/7 uptime</li>
-      </ul>
-
-      <p><a class="btn" href="/map.html">See the coverage map</a> <a class="btn btn-secondary" href="/faq.html">Read the FAQ</a></p>
+      <p style="margin-top:1.5rem;"><a class="link-arrow" href="/faq.html">Read the full FAQ</a></p>
     </div>
   </section>
 </main>
@@ -155,7 +134,13 @@
   <div class="container footer-grid">
     <div><strong>CNYmesh</strong><br/>Central New York Mesh Networking Community</div>
     <nav aria-label="Footer">
-      <a href="/about.html">About</a><a href="/how-to-join.html">How to Join</a><a href="/technical-resources.html">Technical</a><a href="/links-resources.html">Links & Resources</a><a href="/faq.html">FAQ</a><a href="/map.html">Coverage Map</a>
+      <a href="/about.html">About</a>
+      <a href="/how-to-join.html">How to Join</a>
+      <a href="/mesh-protocols.html">Mesh Protocols</a>
+      <a href="/technical-resources.html">Technical</a>
+      <a href="/links-resources.html">Links &amp; Resources</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/map.html">Coverage Map</a>
     </nav>
     <div class="fineprint">© <span id="year"></span> CNYmesh</div>
   </div>
@@ -166,6 +151,8 @@
     <p>CNYmesh is not affiliated with Meshtastic®, nor endorsed by Meshtastic LLC.</p>
   </div>
 </div>
+
+<!-- Dark mode toggle is injected by /js/dark-mode.js -->
 
 <script src="/js/home.js" defer></script>
 <script src="/js/dark-mode.js" defer></script>

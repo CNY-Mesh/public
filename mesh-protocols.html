@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mesh Protocols — CNYmesh</title>
+  <meta name="description" content="Compare Meshtastic and MeshCore for LoRa mesh networking. CNYmesh runs both protocols across Central New York." />
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+  <link rel="shortcut icon" href="/img/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="CNYmesh" />
+  <link rel="manifest" href="/img/site.webmanifest" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/"><span class="brand-mark">CNY</span><span class="brand-mark accent">mesh</span></a>
+    <button class="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
+      <span id="mobile-menu-icon">☰</span>
+    </button>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/how-to-join.html">How to Join</a>
+      <a href="/mesh-protocols.html" class="active">Mesh Protocols</a>
+      <a href="/#resources">Technical</a>
+      <a href="/links-resources.html">Links &amp; Resources</a>
+      <a href="/map.html">Coverage Map</a>
+      <a href="/#involved">Get Involved</a>
+      <a class="btn btn-small" href="/faq.html">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content">
+  <section class="hero-page">
+    <div class="container">
+      <h1>Mesh Protocols</h1>
+      <p class="lede">CNYmesh actively operates networks on both <strong>Meshtastic</strong> and <strong>MeshCore</strong>. This page explains what each protocol does, how they differ, and which might be the right starting point for you.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Two protocols, one community</h2>
+      <p>
+        Both Meshtastic and MeshCore use LoRa radios to build decentralized mesh networks that can carry text messages, position reports, and telemetry without relying on the internet or cell service. They share the same underlying radio technology but take different approaches to how packets are routed and how the network is organized.
+      </p>
+      <p>
+        CNYmesh doesn't pick sides. We run both because each has genuine strengths, and having parallel networks gives our community more flexibility, more to learn from, and better long-term resilience.
+      </p>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container two-col">
+      <div>
+        <h2>Meshtastic</h2>
+        <p>
+          Meshtastic is a mature, widely-adopted open-source mesh platform with a large global community. It uses a <strong>managed flood routing</strong> model — messages propagate hop-by-hop through nearby nodes until they reach their destination or hit the hop limit. Configuration is done through polished mobile and desktop apps with no command line required.
+        </p>
+        <h3>Strengths</h3>
+        <ul class="checklist">
+          <li>Large, established ecosystem with broad hardware support</li>
+          <li>Polished mobile apps for Android and iOS</li>
+          <li>Low barrier to entry — most users are up and running in under an hour</li>
+          <li>Active global community with lots of documentation and peer support</li>
+          <li>MQTT bridging for internet-connected mesh expansion</li>
+        </ul>
+        <h3>Things to consider</h3>
+        <ul class="bullets">
+          <li>Flood routing can create channel congestion on dense networks</li>
+          <li>Limited control over routing topology at the protocol level</li>
+        </ul>
+        <p><a class="btn" href="/getting-started/meshtastic.html">Meshtastic getting started →</a></p>
+      </div>
+      <div>
+        <h2>MeshCore</h2>
+        <p>
+          MeshCore is a newer open-source LoRa mesh firmware with a focus on <strong>scalable, hierarchical routing</strong>. Rather than flooding packets across the network, MeshCore builds and maintains path information so that traffic can be routed more efficiently over larger areas. It supports a nested regional structure that's well-suited for multi-city coordination.
+        </p>
+        <h3>Strengths</h3>
+        <ul class="checklist">
+          <li>Path-aware routing reduces unnecessary retransmissions</li>
+          <li>Designed to scale across regional and multi-regional networks</li>
+          <li>Explicit repeater and room-server roles for structured deployments</li>
+          <li>Active development with growing momentum in the community mesh space</li>
+        </ul>
+        <h3>Things to consider</h3>
+        <ul class="bullets">
+          <li>Smaller ecosystem and hardware options compared to Meshtastic</li>
+          <li>Initial configuration requires more hands-on setup</li>
+          <li>Still maturing — expect more frequent changes than Meshtastic</li>
+        </ul>
+        <p><a class="btn" href="/getting-started/meshcore.html">MeshCore getting started →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Side-by-side comparison</h2>
+      <table class="channel-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Meshtastic</th>
+            <th>MeshCore</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Feature"><strong>Routing approach</strong></td>
+            <td data-label="Meshtastic">Managed flood (hop-limited)</td>
+            <td data-label="MeshCore">Path-aware store-and-forward</td>
+          </tr>
+          <tr>
+            <td data-label="Feature"><strong>Mobile app</strong></td>
+            <td data-label="Meshtastic">Polished apps on Android &amp; iOS</td>
+            <td data-label="MeshCore">Companion app on Android &amp; iOS</td>
+          </tr>
+          <tr>
+            <td data-label="Feature"><strong>Hardware options</strong></td>
+            <td data-label="Meshtastic">Very broad — 20+ supported boards</td>
+            <td data-label="MeshCore">Growing — common LoRa boards supported</td>
+          </tr>
+          <tr>
+            <td data-label="Feature"><strong>Community size</strong></td>
+            <td data-label="Meshtastic">Large global community</td>
+            <td data-label="MeshCore">Smaller but active and growing</td>
+          </tr>
+          <tr>
+            <td data-label="Feature"><strong>Setup complexity</strong></td>
+            <td data-label="Meshtastic">Low — guided by mobile app</td>
+            <td data-label="MeshCore">Moderate — some manual configuration</td>
+          </tr>
+          <tr>
+            <td data-label="Feature"><strong>Regional hierarchy</strong></td>
+            <td data-label="Meshtastic">Via MQTT topic structure</td>
+            <td data-label="MeshCore">Built into the protocol</td>
+          </tr>
+          <tr>
+            <td data-label="Feature"><strong>MQTT / internet bridge</strong></td>
+            <td data-label="Meshtastic">Yes — widely used</td>
+            <td data-label="MeshCore">In development</td>
+          </tr>
+          <tr>
+            <td data-label="Feature"><strong>Maturity</strong></td>
+            <td data-label="Meshtastic">Mature, stable releases</td>
+            <td data-label="MeshCore">Actively developing</td>
+          </tr>
+          <tr>
+            <td data-label="Feature"><strong>CNYmesh network</strong></td>
+            <td data-label="Meshtastic">Active — deployed across CNY</td>
+            <td data-label="MeshCore">Active — infrastructure growing</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 style="margin-top:3rem;">Which should I start with?</h2>
+      <div class="two-col" style="margin-top:1.5rem;">
+        <div class="card">
+          <h3>Start with Meshtastic if…</h3>
+          <ul class="checklist">
+            <li>You want the quickest path to a working node</li>
+            <li>You prefer configuring everything through a smartphone app</li>
+            <li>You want the widest choice of off-the-shelf hardware</li>
+            <li>You plan to use MQTT to monitor your node remotely</li>
+            <li>You're new to mesh networking</li>
+          </ul>
+          <p><a class="btn" href="/getting-started/meshtastic.html">Meshtastic guide</a></p>
+        </div>
+        <div class="card">
+          <h3>Start with MeshCore if…</h3>
+          <ul class="checklist">
+            <li>You're interested in the technical side of mesh routing</li>
+            <li>You want to contribute to a newer, evolving ecosystem</li>
+            <li>You're planning a fixed infrastructure deployment</li>
+            <li>You like the idea of a regionally-structured network</li>
+            <li>You already have Meshtastic running and want to explore more</li>
+          </ul>
+          <p><a class="btn" href="/getting-started/meshcore.html">MeshCore guide</a></p>
+        </div>
+      </div>
+
+      <div class="note-card" style="margin-top:3rem;">
+        <h3>You don't have to choose just one</h3>
+        <p>
+          Many CNYmesh members run both. Some hardware can even run Meshtastic and MeshCore on separate boards deployed at the same location. CNYmesh actively documents what we learn from running both in parallel — join the community to follow along.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <h2>Ready to get on the air?</h2>
+      <p>Pick a protocol and follow the step-by-step getting started guide. You can always come back to try the other one later.</p>
+      <p>
+        <a class="btn" href="/getting-started/meshtastic.html">Meshtastic getting started</a>
+        &nbsp;
+        <a class="btn btn-secondary" href="/getting-started/meshcore.html">MeshCore getting started</a>
+      </p>
+      <p style="margin-top:1.5rem;">Questions? Join us on <a href="https://discord.gg/xBb5eGTpuy" target="_blank" rel="noopener">Discord</a> or <a href="https://www.facebook.com/groups/cnymesh" target="_blank" rel="noopener">Facebook</a> — the community is happy to help new operators get started.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><strong>CNYmesh</strong><br/>Central New York Mesh Networking Community</div>
+    <nav aria-label="Footer">
+      <a href="/about.html">About</a>
+      <a href="/how-to-join.html">How to Join</a>
+      <a href="/mesh-protocols.html">Mesh Protocols</a>
+      <a href="/technical-resources.html">Technical</a>
+      <a href="/links-resources.html">Links &amp; Resources</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/map.html">Coverage Map</a>
+    </nav>
+    <div class="fineprint">© <span id="year"></span> CNYmesh</div>
+  </div>
+</footer>
+
+<div class="disclaimer">
+  <div class="container">
+    <p>CNYmesh is not affiliated with Meshtastic®, nor endorsed by Meshtastic LLC. CNYmesh is not affiliated with MeshCore or its developers.</p>
+  </div>
+</div>
+
+<!-- Dark mode toggle is injected by /js/dark-mode.js -->
+
+<script src="/js/home.js" defer></script>
+<script src="/js/dark-mode.js" defer></script>
+<script src="/js/mobile-menu.js" defer></script>
+</body>
+</html>

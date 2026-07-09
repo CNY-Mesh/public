@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Getting Started with MeshCore — CNYmesh</title>
+  <meta name="description" content="Step-by-step guide to setting up a MeshCore node and joining the CNYmesh network in Central New York." />
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+  <link rel="shortcut icon" href="/img/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="CNYmesh" />
+  <link rel="manifest" href="/img/site.webmanifest" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/"><span class="brand-mark">CNY</span><span class="brand-mark accent">mesh</span></a>
+    <button class="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
+      <span id="mobile-menu-icon">☰</span>
+    </button>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/how-to-join.html">How to Join</a>
+      <a href="/mesh-protocols.html">Mesh Protocols</a>
+      <a href="/#resources">Technical</a>
+      <a href="/links-resources.html">Links &amp; Resources</a>
+      <a href="/map.html">Coverage Map</a>
+      <a href="/#involved">Get Involved</a>
+      <a class="btn btn-small" href="/faq.html">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content">
+  <section class="hero-page">
+    <div class="container">
+      <h1>Getting Started with MeshCore</h1>
+      <p class="lede">A practical guide to getting a MeshCore node running and connected to the CNYmesh network — covering hardware, firmware, the companion app, and CNY-specific radio settings.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-col">
+      <div>
+        <h2>What is MeshCore?</h2>
+        <p>MeshCore is an open-source LoRa mesh networking firmware with a different architectural approach than Meshtastic. It uses a store-and-forward routing model with explicit path tracking, which makes it well-suited for building regional hierarchical networks. CNYmesh is actively deploying MeshCore infrastructure alongside its Meshtastic network.</p>
+        <p>Not sure which protocol is right for you? See the <a href="/mesh-protocols.html">Mesh Protocols comparison page</a>.</p>
+
+        <h2>Step 1 — Get compatible hardware</h2>
+        <p>MeshCore runs on several popular LoRa platforms. Look for boards using the <strong>SX1262 or SX1276 radio chipset</strong> in the 915 MHz band for US use. Common choices include:</p>
+        <ul class="bullets">
+          <li><strong>Heltec LoRa 32 V3</strong> — compact, integrated display, widely available</li>
+          <li><strong>LILYGO T-Beam</strong> — GPS-equipped, good for mobile or infrastructure use</li>
+          <li><strong>RAK WisBlock 4631</strong> — modular platform, popular for fixed site installs</li>
+          <li><strong>Seeed WIO Tracker / T1000-E</strong> — compact tracker with GPS</li>
+        </ul>
+        <p>Check the <a href="https://meshcore.co.uk" target="_blank" rel="noopener">MeshCore project site</a> for the current list of supported hardware and recommended configurations.</p>
+
+        <h2>Step 2 — Flash MeshCore firmware</h2>
+        <p>Unlike Meshtastic, MeshCore firmware images are specific to the node role you intend to run. Common roles include:</p>
+        <ul class="bullets">
+          <li><strong>Repeater</strong> — fixed infrastructure node that relays traffic across the mesh</li>
+          <li><strong>Room Server</strong> — acts as a message store for group chat rooms</li>
+          <li><strong>Client</strong> — personal node used with the companion app</li>
+        </ul>
+        <p>Flash the appropriate firmware for your board using the MeshCore web flasher or by following the instructions in the <a href="https://meshcore.co.uk" target="_blank" rel="noopener">MeshCore documentation</a>.</p>
+
+        <h2>Step 3 — Install the MeshCore companion app</h2>
+        <p>The MeshCore companion app connects to your node over Bluetooth (or serial) and gives you access to messaging, node management, and configuration.</p>
+        <ul class="bullets">
+          <li><strong>Android:</strong> available on Google Play (search "MeshCore")</li>
+          <li><strong>iOS:</strong> available on the App Store</li>
+          <li><strong>Desktop:</strong> a browser-based companion interface is also available for serial-connected nodes</li>
+        </ul>
+        <p>Open the app, pair to your node, and set your callsign or display name.</p>
+
+        <h2>Step 4 — Configure CNYmesh radio settings</h2>
+        <p>All CNYmesh MeshCore nodes use a shared radio configuration so that they can hear and communicate with each other. Apply these settings to your node using the companion app or serial console.</p>
+
+        <div class="card">
+          <h3>Base Radio Configuration</h3>
+          <ul class="config-list">
+            <li><strong>Frequency</strong> <code>910.525 MHz</code></li>
+            <li><strong>Bandwidth</strong> <code>62.5 kHz</code></li>
+            <li><strong>Spreading Factor</strong> <code>7</code></li>
+            <li><strong>Coding Rate</strong> <code>8</code></li>
+            <li><strong>TX Power</strong> <code>22</code></li>
+          </ul>
+          <h4>Apply via serial console</h4>
+          <ul class="bullets">
+            <li><code>set freq 910525</code></li>
+            <li><code>set radio bw 62500 sf 7 cr 8</code></li>
+            <li><code>set tx 22</code></li>
+          </ul>
+          <h4>Verify settings</h4>
+          <ul class="bullets">
+            <li><code>get radio</code></li>
+            <li><code>get freq</code></li>
+            <li><code>get tx</code></li>
+          </ul>
+        </div>
+
+        <h2>Step 5 — Enable 2-byte hash mode</h2>
+        <p>MeshCore supports a 2-byte path hash mode that reduces ID collisions as the network grows. All CNYmesh repeaters and infrastructure nodes should have this enabled.</p>
+
+        <div class="card">
+          <h3>Apply 2-Byte Hash Mode</h3>
+          <ul class="bullets">
+            <li><code>set path.hash.mode 1</code></li>
+            <li><code>reboot</code></li>
+            <li><code>clock sync</code></li>
+          </ul>
+          <h4>Verify after reboot</h4>
+          <ul class="bullets">
+            <li><code>get path.hash.mode</code></li>
+          </ul>
+          <p>After rebooting, check the device status tab to confirm uptime and clock sync.</p>
+        </div>
+
+        <h2>Step 6 — Configure regional channels</h2>
+        <p>CNYmesh uses a nested regional structure to keep local traffic organized and prevent unnecessary propagation into neighboring mesh areas.</p>
+
+        <div class="card">
+          <h3>Regional Structure</h3>
+          <ul class="bullets">
+            <li><strong><code>us</code></strong> — national level</li>
+            <li><strong><code>us-ny</code></strong> — New York State level</li>
+            <li><strong><code>us-ny-cny</code></strong> — Central New York local level</li>
+          </ul>
+          <h4>Apply regional configuration</h4>
+          <ul class="bullets">
+            <li><code>region put us</code></li>
+            <li><code>region put us-ny us</code></li>
+            <li><code>region put us-ny-cny us-ny</code></li>
+            <li><code>region allowf us</code></li>
+            <li><code>region allowf us-ny</code></li>
+            <li><code>region allowf us-ny-cny</code></li>
+            <li><code>region save</code></li>
+          </ul>
+          <h4>Verify</h4>
+          <ul class="bullets">
+            <li><code>region</code></li>
+          </ul>
+          <p>The output should show the full nested hierarchy from <code>us</code> → <code>us-ny</code> → <code>us-ny-cny</code>.</p>
+        </div>
+
+        <h2>Step 7 — Go on the air</h2>
+        <p>With radio settings and regional configuration in place, your node is ready to join the CNYmesh MeshCore network. A few things to keep in mind:</p>
+        <ul class="checklist">
+          <li>Fixed infrastructure nodes should be elevated and powered 24/7 for best coverage</li>
+          <li>Weatherproof enclosures are strongly recommended for outdoor installs given CNY winters</li>
+          <li>Coordinate with the community on Discord to find coverage gaps worth filling</li>
+          <li>Check the <a href="/map.html">coverage map</a> and join our channels to stay current on deployments</li>
+        </ul>
+      </div>
+
+      <aside>
+        <div class="card">
+          <h3>Join the community</h3>
+          <p>Connect with other CNYmesh operators for setup help, network updates, and local coordination.</p>
+          <ul class="bullets">
+            <li><a href="https://discord.gg/xBb5eGTpuy" target="_blank" rel="noopener">Discord server</a></li>
+            <li><a href="https://www.facebook.com/groups/cnymesh" target="_blank" rel="noopener">Facebook group</a></li>
+            <li><a href="mailto:hello@cnymesh.org">hello@cnymesh.org</a></li>
+          </ul>
+        </div>
+
+        <div class="card" style="margin-top:1.5rem;">
+          <h3>Explore Meshtastic too</h3>
+          <p>CNYmesh also runs an active Meshtastic network. If you're just getting started and want a larger device ecosystem and app support, Meshtastic may be the easier first step.</p>
+          <p><a class="btn btn-secondary" href="/getting-started/meshtastic.html">Meshtastic guide</a></p>
+        </div>
+
+        <div class="card" style="margin-top:1.5rem;">
+          <h3>Infrastructure repeater settings</h3>
+          <p>Running a fixed MeshCore repeater? See the full technical reference for repeater configuration and advanced regional settings.</p>
+          <p><a class="link-arrow" href="/technical-resources.html#meshcore-repeater-settings">Repeater settings reference</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><strong>CNYmesh</strong><br/>Central New York Mesh Networking Community</div>
+    <nav aria-label="Footer">
+      <a href="/about.html">About</a>
+      <a href="/how-to-join.html">How to Join</a>
+      <a href="/mesh-protocols.html">Mesh Protocols</a>
+      <a href="/technical-resources.html">Technical</a>
+      <a href="/links-resources.html">Links &amp; Resources</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/map.html">Coverage Map</a>
+    </nav>
+    <div class="fineprint">© <span id="year"></span> CNYmesh</div>
+  </div>
+</footer>
+
+<div class="disclaimer">
+  <div class="container">
+    <p>CNYmesh is not affiliated with Meshtastic®, nor endorsed by Meshtastic LLC. CNYmesh is not affiliated with MeshCore or its developers.</p>
+  </div>
+</div>
+
+<!-- Dark mode toggle is injected by /js/dark-mode.js -->
+
+<script src="/js/home.js" defer></script>
+<script src="/js/dark-mode.js" defer></script>
+<script src="/js/mobile-menu.js" defer></script>
+</body>
+</html>

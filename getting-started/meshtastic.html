@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Getting Started with Meshtastic — CNYmesh</title>
+  <meta name="description" content="Step-by-step guide to setting up a Meshtastic node and joining the CNYmesh network in Central New York." />
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+  <link rel="shortcut icon" href="/img/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="CNYmesh" />
+  <link rel="manifest" href="/img/site.webmanifest" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/"><span class="brand-mark">CNY</span><span class="brand-mark accent">mesh</span></a>
+    <button class="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
+      <span id="mobile-menu-icon">☰</span>
+    </button>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/how-to-join.html">How to Join</a>
+      <a href="/mesh-protocols.html">Mesh Protocols</a>
+      <a href="/#resources">Technical</a>
+      <a href="/links-resources.html">Links &amp; Resources</a>
+      <a href="/map.html">Coverage Map</a>
+      <a href="/#involved">Get Involved</a>
+      <a class="btn btn-small" href="/faq.html">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content">
+  <section class="hero-page">
+    <div class="container">
+      <h1>Getting Started with Meshtastic</h1>
+      <p class="lede">Everything you need to get a Meshtastic node on the air and connected to CNYmesh — from picking hardware to configuring channels and joining the community.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-col">
+      <div>
+        <h2>Step 1 — Choose your hardware</h2>
+        <p>Meshtastic runs on affordable LoRa radio boards. Most devices cost between <strong>$30–$100</strong> and require no soldering. Popular choices used within CNYmesh include:</p>
+        <ul class="bullets">
+          <li><strong>LILYGO T-Beam</strong> — built-in GPS, good all-around starter node</li>
+          <li><strong>Heltec V3</strong> — compact, battery-friendly, easy to deploy indoors</li>
+          <li><strong>LILYGO T-Echo</strong> — low power with e-ink display, great for portable use</li>
+          <li><strong>RAK WisBlock</strong> — modular platform, popular for fixed infrastructure installs</li>
+        </ul>
+        <p>Check the <a href="https://meshtastic.org/docs/hardware" target="_blank" rel="noopener">Meshtastic hardware page</a> for a full device list and firmware compatibility.</p>
+
+        <h2>Step 2 — Flash firmware (if needed)</h2>
+        <p>New devices may ship with Meshtastic pre-installed. If not, use the <a href="https://flasher.meshtastic.org" target="_blank" rel="noopener">Meshtastic web flasher</a> to install the latest stable firmware. Connect the device via USB and follow the on-screen steps — no special tools required.</p>
+
+        <h2>Step 3 — Install the Meshtastic app</h2>
+        <p>Download the official Meshtastic app for your phone:</p>
+        <ul class="bullets">
+          <li><strong>Android:</strong> available on Google Play</li>
+          <li><strong>iOS:</strong> available on the App Store</li>
+        </ul>
+        <p>Open the app, pair to your device over Bluetooth, and set your node name or callsign. This is how you'll appear to others on the mesh.</p>
+
+        <h2>Step 4 — Join the CNYmesh channels</h2>
+        <p>CNYmesh uses a set of shared channels to organize communication across Central New York. Scan the QR code below from within the Meshtastic app to automatically load the full channel configuration.</p>
+
+        <div class="card">
+          <h3>CNYmesh Channel Structure</h3>
+          <table class="channel-table">
+            <thead>
+              <tr>
+                <th>Channel Name</th>
+                <th>Role</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Channel Name"><strong>LongFast</strong></td>
+                <td data-label="Role">Primary</td>
+                <td data-label="Purpose">Node discovery and general chat; compatible with the wider Meshtastic default channel</td>
+              </tr>
+              <tr>
+                <td data-label="Channel Name"><strong>CNYmesh</strong></td>
+                <td data-label="Role">Secondary</td>
+                <td data-label="Purpose">Primary internal channel for CNYmesh community traffic</td>
+              </tr>
+              <tr>
+                <td data-label="Channel Name"><strong>CNYmesh-EAS</strong></td>
+                <td data-label="Role">Secondary</td>
+                <td data-label="Purpose">Local weather alerts and emergency notices for Central New York</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h4>How to scan the QR code</h4>
+          <ol class="steps">
+            <li>Open the Meshtastic app and go to the Channels screen</li>
+            <li>Tap the QR scan icon and point your camera at the code below</li>
+            <li>Select <strong>Replace</strong> when prompted</li>
+            <li>Tap <strong>Accept</strong> to save the configuration</li>
+          </ol>
+          <div style="text-align: center; margin: 2rem 0;">
+            <img src="/img/CNYmeshQR.png" alt="CNYmesh channel configuration QR code" style="max-width: 300px; width: 100%; height: auto; border: 1px solid var(--border-color); border-radius: 8px;">
+            <p style="margin-top: 1rem; font-size: 0.9em; color: var(--text-muted);">
+              <strong>CNYmesh Channel Configuration QR Code</strong><br>
+              Scan with your Meshtastic app to automatically join our channels
+            </p>
+          </div>
+        </div>
+
+        <h2>Step 5 — Configure LoRa radio settings</h2>
+        <p>For your node to communicate reliably with others on the CNYmesh network, your LoRa settings need to match our standard configuration.</p>
+
+        <div class="card">
+          <h3>LoRa Configuration</h3>
+          <ul class="config-list">
+            <li><strong>Modem Preset</strong> <span>Long_Fast</span></li>
+            <li><strong>Region</strong> <span>United States</span></li>
+            <li><strong>Hop Limit</strong> <span>3–7</span></li>
+            <li><strong>TX Enabled</strong> <span>True</span></li>
+            <li><strong>TX Power</strong> <span>30</span></li>
+            <li><strong>Override Frequency</strong> <code>906.875 MHz</code></li>
+            <li><strong>Frequency Slot</strong> <span>20</span></li>
+            <li><strong>Override Duty Cycle</strong> <span>True</span></li>
+            <li><strong>OK to MQTT</strong> <span>True</span></li>
+          </ul>
+        </div>
+
+        <h2>Step 6 — Configure MQTT (optional but recommended)</h2>
+        <p>Enabling MQTT bridges your node to the broader internet-connected mesh and feeds the <a href="https://data.cnymesh.org" target="_blank" rel="noopener">CNYmesh live dashboard</a>. This is especially useful for fixed infrastructure nodes.</p>
+
+        <div class="card">
+          <h3>MQTT Configuration</h3>
+          <ul class="config-list">
+            <li><strong>MQTT Server</strong> <code>mqtt.meshtastic.org</code></li>
+            <li><strong>Root Topic</strong> <code>msh/US/NY/CNY</code></li>
+            <li><strong>Uplink Enabled</strong> <span>True (on CNYmesh channel)</span></li>
+            <li><strong>Downlink Enabled</strong> <span>True (on CNYmesh channel)</span></li>
+          </ul>
+          <p><em>The CNY root topic keeps our regional traffic organized and separate from other areas.</em></p>
+        </div>
+
+        <h2>Step 7 — Put your node on the air</h2>
+        <p>Once configured, your node will start participating in the mesh automatically. A few tips for getting the most out of your deployment:</p>
+        <ul class="checklist">
+          <li>Place near a window or outdoors — elevation makes a big difference</li>
+          <li>Power from AC or solar for around-the-clock operation</li>
+          <li>Weather-proof outdoor enclosures are important for CNY winters</li>
+          <li>Check the <a href="/map.html">coverage map</a> to see where gaps exist and where you can help</li>
+        </ul>
+      </div>
+
+      <aside>
+        <div class="card">
+          <h3>Join the community</h3>
+          <p>Connect with other CNYmesh operators for setup help, network updates, and local coordination.</p>
+          <ul class="bullets">
+            <li><a href="https://discord.gg/xBb5eGTpuy" target="_blank" rel="noopener">Discord server</a></li>
+            <li><a href="https://www.facebook.com/groups/cnymesh" target="_blank" rel="noopener">Facebook group</a></li>
+            <li><a href="mailto:hello@cnymesh.org">hello@cnymesh.org</a></li>
+          </ul>
+          <p><a class="btn" href="https://data.cnymesh.org" target="_blank" rel="noopener">Live dashboard</a></p>
+        </div>
+
+        <div class="card" style="margin-top:1.5rem;">
+          <h3>Explore MeshCore too</h3>
+          <p>CNYmesh also runs a MeshCore network alongside Meshtastic. If you're curious about trying the other protocol, check out the getting started guide.</p>
+          <p><a class="btn btn-secondary" href="/getting-started/meshcore.html">MeshCore guide</a></p>
+        </div>
+
+        <div class="card" style="margin-top:1.5rem;">
+          <h3>Infrastructure node settings</h3>
+          <p>Deploying a fixed router or relay node? See the full infrastructure configuration recommendations including node role guidance.</p>
+          <p><a class="link-arrow" href="/technical-resources.html#meshtastic-infrastructure-node">Infrastructure node settings</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><strong>CNYmesh</strong><br/>Central New York Mesh Networking Community</div>
+    <nav aria-label="Footer">
+      <a href="/about.html">About</a>
+      <a href="/how-to-join.html">How to Join</a>
+      <a href="/mesh-protocols.html">Mesh Protocols</a>
+      <a href="/technical-resources.html">Technical</a>
+      <a href="/links-resources.html">Links &amp; Resources</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/map.html">Coverage Map</a>
+    </nav>
+    <div class="fineprint">© <span id="year"></span> CNYmesh</div>
+  </div>
+</footer>
+
+<div class="disclaimer">
+  <div class="container">
+    <p>CNYmesh is not affiliated with Meshtastic®, nor endorsed by Meshtastic LLC.</p>
+  </div>
+</div>
+
+<!-- Dark mode toggle is injected by /js/dark-mode.js -->
+
+<script src="/js/home.js" defer></script>
+<script src="/js/dark-mode.js" defer></script>
+<script src="/js/mobile-menu.js" defer></script>
+</body>
+</html>
